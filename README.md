@@ -14,6 +14,9 @@ This component depend on `react-native-image-rotate` and `react-native-vector-ic
 | :------------ |:---------------:| :---------------|
 | onDone | `function` | A function which accepts 1 argument `croppedImageUri`. Called when user press the 'DONE' button |
 | onCancel | `function` | A function without arguments. Called when user press the 'CANCEL' button |
+| imageUri | `string` | The uri of the image you want to crop or rotate |
+| imageWidth | `number` | The width (in pixels) of the image you passed in `imageUri` |
+| imageHeight | `number` | The height (in pixels) of the image you passed in `imageUri` |
 
 #### Example of usage
 -------------
@@ -52,6 +55,9 @@ class AmazingCropperPage extends Component {
       <AmazingCropper
         onDone={this.onDone}
         onCancel={this.onCancel}
+        imageUri='https://www.lifeofpix.com/wp-content/uploads/2018/09/manhattan_-11-1600x2396.jpg'
+        imageWidth={1600}
+        imageHeight={2396}
       />
     );
   }
