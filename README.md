@@ -12,8 +12,8 @@ This component depend on `react-native-image-rotate` and `react-native-vector-ic
 -------------
 | Prop  | Type | Description |
 | :------------ |:---------------:| :---------------|
-| onSend | `function` | A function which accepts 1 argument `croppedImageUri`. Called when user press the 'DONE' button |
-| onClose | `function` | A function without arguments. Called when user press the 'CANCEL' button on the top right side of the camera |
+| onDone | `function` | A function which accepts 1 argument `croppedImageUri`. Called when user press the 'DONE' button |
+| onCancel | `function` | A function without arguments. Called when user press the 'CANCEL' button |
 
 #### Example of usage
 -------------
@@ -24,7 +24,7 @@ import { Actions } from 'react-native-router-flux';
 import AmazingCropper from 'react-native-amazing-cropper';;
 
 class AmazingCropperPage extends Component {
-  onSend = (croppedImageUri) => {
+  onDone = (croppedImageUri) => {
     console.log('croppedImageUri = ', croppedImageUri);
     if (Platform.OS === 'ios') {
       ImageStore.getBase64ForTag(
@@ -42,7 +42,7 @@ class AmazingCropperPage extends Component {
     Actions.home();
   }
 
-  onClose = () => {
+  onCancel = () => {
     // navigate back
     Actions.pop();
   }
@@ -50,8 +50,8 @@ class AmazingCropperPage extends Component {
   render() {
     return (
       <AmazingCropper
-        onSend={this.onSend}
-        onClose={this.onClose}
+        onDone={this.onDone}
+        onCancel={this.onCancel}
       />
     );
   }
