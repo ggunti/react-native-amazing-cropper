@@ -1,0 +1,13 @@
+{
+  "extends": "rallycoding",
+  "rules": {
+    "arrow-body-style" : 0,
+    "global-require" : 0,
+    "no-underscore-dangle": 0,
+    "max-len" : [2, 130, 4, {ignoreComments: true, ignoreUrls: true}],
+    "react/sort-comp" : 0,
+  },
+  "globals": {
+    "alert": true
+  }
+}
