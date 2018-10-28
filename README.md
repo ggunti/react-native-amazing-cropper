@@ -1,6 +1,10 @@
 # react-native-amazing-cropper
 Image cropper for react native using Animated API (with rotation possibility)
 
+<img src="https://i.imgur.com/1GqvB6v.png" height="400" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/sz1bpT9.png" height="400" />
+<br/>
+<img src="https://i.imgur.com/Xf3PqJH.png" height="400" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/Ae4YRGS.png" height="400" />
+
 This component depend on `react-native-image-rotate` and `react-native-vector-icons` libraries. They need to be installed and linked to your project before.
 
 **STEPS TO INSTALL:**
