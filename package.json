@@ -1,13 +1,20 @@
 {
   "name": "react-native-amazing-cropper",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Custom react native cropper with rotation",
   "main": "index.js",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Gotha Guntter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ggunti/react-native-amazing-cropper.git"
+  },
+  "author": {
+    "name": "Gotha Guntter",
+    "email": "ggunty96@gmail.com"
+  },
   "license": "MIT",
   "dependencies": {
     "prop-types": "^15.6.2"
@@ -32,5 +39,9 @@
     "rotate",
     "image",
     "cropper"
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/ggunti/react-native-amazing-cropper/issues"
+  },
+  "homepage": "https://github.com/ggunti/react-native-amazing-cropper"
 }
