@@ -67,3 +67,7 @@ class AmazingCropperPage extends Component {
   }
 }
 ```
+
+#### Did you like it? Check out also my mini applications on Google Play:
+Simple Share: https://play.google.com/store/apps/details?id=com.sendfiles </br>
+Card Trick: https://play.google.com/store/apps/details?id=com.card_trick_2
