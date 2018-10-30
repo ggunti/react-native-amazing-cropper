@@ -21,6 +21,10 @@ This component depend on `react-native-image-rotate` and `react-native-vector-ic
 | imageUri | `string` | The uri of the image you want to crop or rotate |
 | imageWidth | `number` | The width (in pixels) of the image you passed in `imageUri` |
 | imageHeight | `number` | The height (in pixels) of the image you passed in `imageUri` |
+| rotateIcon | `component` | Custom component for rotate icon. Default is `<MaterialCommunityIcon name='format-rotate-90' />` |
+| doneText | `string` | Custom string for done button text. Default is `DONE` |
+| cancelText | `string` | Custom string for cancel button text. Default is `CANCEL` |
+| initialRotation | `number` | Number which set the default rotation of the image when cropper is initialized.</br> Default is `0` |
 
 #### Example of usage
 -------------
