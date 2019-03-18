@@ -9,9 +9,7 @@ import { getCropperLimits } from '../utils';
 class CropperPage extends Component {
   constructor(props) {
     super(props);
-    //const { imageWidth, imageHeight } = props;
-    const imageWidth = props.imageWidth > 0 ? props.imageWidth : 1280; // 340
-    const imageHeight = props.imageHeight > 0 ? props.imageHeight : 747; // 500
+    const { imageWidth, imageHeight } = props;
     const {
       TOP_LIMIT,
       LEFT_LIMIT,
@@ -507,7 +505,7 @@ class CropperPage extends Component {
     this.setCropBoxRotation((360 + (this.state.rotation - 90)) % 360);
   }
 
-  rotate = () => {
+  onRotate = () => {
     let imageWidth = 0;
     let imageHeight = 0;
     let rotation = 0;
@@ -566,7 +564,7 @@ class CropperPage extends Component {
     this.rightOuter.setNativeProps({ style: { top: TOP_LIMIT, height: 0 } });
   }
 
-  done = () => {
+  onDone = () => {
     if (this.isRectangleMoving) return null;
 
     //this.setState({ isSaving: true });
@@ -621,6 +619,7 @@ class CropperPage extends Component {
     return (
       <Cropper
         imageUri={this.props.imageUri} // 'https://3.imimg.com/data3/SN/NO/MY-10244508/vertical-building-parking-500x500.jpg'
+        footerComponent={this.props.footerComponent}
         getTopOuterStyle={this.getTopOuterStyle}
         getLeftOuterStyle={this.getLeftOuterStyle}
         getBottomOuterStyle={this.getBottomOuterStyle}
@@ -635,8 +634,8 @@ class CropperPage extends Component {
         getRightSideStyle={this.getRightSideStyle}
         getRectangleStyle={this.getRectangleStyle}
         getImageStyle={this.getImageStyle}
-        done={this.done}
-        rotate={this.rotate}
+        onDone={this.onDone}
+        onRotate={this.onRotate}
         onCancel={this.onCancel}
         topOuterPanResponder={this.state.topOuterPanResponder}
         leftOuterPanResponder={this.state.leftOuterPanResponder}
@@ -655,20 +654,15 @@ class CropperPage extends Component {
         leftOuterRef={ref => { this.leftOuter = ref; }}
         bottomOuterRef={ref => { this.bottomOuter = ref; }}
         rightOuterRef={ref => { this.rightOuter = ref; }}
-        rotateIcon={this.props.rotateIcon}
-        doneText={this.props.doneText}
-        cancelText={this.props.cancelText}
       />
     );
   }
 }
 
 CropperPage.propTypes = {
+  footerComponent: PropTypes.object,
   onDone: PropTypes.func,
   onCancel: PropTypes.func,
-  rotateIcon: PropTypes.object,
-  doneText: PropTypes.string,
-  cancelText: PropTypes.string,
   imageUri: PropTypes.string,
   imageWidth: PropTypes.number,
   imageHeight: PropTypes.number,

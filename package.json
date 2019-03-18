@@ -1,6 +1,6 @@
 {
   "name": "react-native-amazing-cropper",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Custom react native cropper with rotation",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,6 @@
     "react": "*",
     "react-native": "*",
     "react-native-image-rotate": "*",
-    "react-native-vector-icons": "*"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",

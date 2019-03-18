@@ -1,37 +1,29 @@
-import React, { Component } from 'react';
-import { Platform } from 'react-native';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Cropper from './pages/Cropper.page';
+import DefaultFooter from './components/Footer/DefaultFooter.component';
 
-class App extends Component {
-  render() {
-    return (
-      <Cropper
-        onDone={this.props.onDone}
-        onCancel={this.props.onCancel}
-        rotateIcon={this.props.rotateIcon}
-        doneText={this.props.doneText}
-        cancelText={this.props.cancelText}
-        imageUri={this.props.imageUri}
-        imageWidth={this.props.imageWidth}
-        imageHeight={this.props.imageHeight}
-        TOP_VALUE={this.props.TOP_VALUE}
-        LEFT_VALUE={this.props.LEFT_VALUE}
-        BOTTOM_VALUE={this.props.BOTTOM_VALUE}
-        RIGHT_VALUE={this.props.RIGHT_VALUE}
-        initialRotation={this.props.initialRotation}
-      />
-    );
-  }
-}
+const App = (props) => (
+  <Cropper
+    footerComponent={props.footerComponent}
+    onDone={props.onDone}
+    onCancel={props.onCancel}
+    imageUri={props.imageUri}
+    imageWidth={props.imageWidth}
+    imageHeight={props.imageHeight}
+    TOP_VALUE={props.TOP_VALUE}
+    LEFT_VALUE={props.LEFT_VALUE}
+    BOTTOM_VALUE={props.BOTTOM_VALUE}
+    RIGHT_VALUE={props.RIGHT_VALUE}
+    initialRotation={props.initialRotation}
+  />
+)
+
 
 App.propTypes = {
+  footerComponent: PropTypes.object,
   onDone: PropTypes.func,
   onCancel: PropTypes.func,
-  rotateIcon: PropTypes.node,
-  doneText: PropTypes.string,
-  cancelText: PropTypes.string,
   imageUri: PropTypes.string,
   imageWidth: PropTypes.number,
   imageHeight: PropTypes.number,
@@ -42,31 +34,19 @@ App.propTypes = {
   initialRotation: PropTypes.number,
 };
 
-const shadow = Platform.select({
-  android: {
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowColor: '#000000',
-    textShadowRadius: 3,
-    shadowOpacity: 0.9,
-    elevation: 1
-  },
-  ios: {
-    shadowOffset: { width: 1, height: 1 },
-    shadowColor: '#000000',
-    shadowRadius: 3,
-    shadowOpacity: 0.9
-  }
-});
-
 App.defaultProps = {
+  footerComponent: (
+    <DefaultFooter
+      doneText='DONE'
+      rotateText='ROTATE'
+      cancelText='CANCEL'
+    />
+  ),
   onDone: () => {},
   onCancel: () => {},
-  rotateIcon: <MaterialCommunityIcon name='format-rotate-90' style={{ color: 'white', fontSize: 26, ...shadow }} />,
-  doneText: 'DONE',
-  cancelText: 'CANCEL',
   imageUri: '',
-  imageWidth: 0,
-  imageHeight: 0,
+  imageWidth: 1280,
+  imageHeight: 747,
   TOP_VALUE: 0,
   LEFT_VALUE: 0,
   BOTTOM_VALUE: 0,
