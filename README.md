@@ -1,5 +1,12 @@
 # react-native-amazing-cropper
-Image cropper for react native made with Animated API (with rotation possibility)
+Image cropper for react native made with Animated API (with rotation possibility) - **for iOS & android**
+
+<img src="https://i.imgur.com/c5lqfLr.png" height="400" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/HNHkWQ7.png" height="400" />
+<br/>
+<img src="https://i.imgur.com/iyhmNav.png" height="400" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/5AJTFHZ.png" height="400" />
+<br/>
+
+<br/>
 
 <img src="https://i.imgur.com/1GqvB6v.png" height="400" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/sz1bpT9.png" height="400" />
 <br/>
