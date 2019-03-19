@@ -16,6 +16,7 @@ const App = (props) => (
     BOTTOM_VALUE={props.BOTTOM_VALUE}
     RIGHT_VALUE={props.RIGHT_VALUE}
     initialRotation={props.initialRotation}
+    NOT_SELECTED_AREA_OPACITY={props.NOT_SELECTED_AREA_OPACITY}
   />
 )
 
@@ -32,6 +33,7 @@ App.propTypes = {
   BOTTOM_VALUE: PropTypes.number,
   RIGHT_VALUE: PropTypes.number,
   initialRotation: PropTypes.number,
+  NOT_SELECTED_AREA_OPACITY: PropTypes.number
 };
 
 App.defaultProps = {
@@ -52,6 +54,7 @@ App.defaultProps = {
   BOTTOM_VALUE: 0,
   RIGHT_VALUE: 0,
   initialRotation: 0,
+  NOT_SELECTED_AREA_OPACITY: 0.5
 };
 
 export default App;

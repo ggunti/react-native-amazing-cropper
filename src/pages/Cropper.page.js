@@ -107,7 +107,7 @@ class CropperPage extends Component {
       left: this.state.LEFT_LIMIT,
       height: Animated.add(BW - this.state.TOP_LIMIT, this.state.topPosition.y),
       width: W,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
     };
   }
 
@@ -124,7 +124,7 @@ class CropperPage extends Component {
         )
       ),
       width: Animated.add(BW - this.state.LEFT_LIMIT, this.state.leftPosition.x),
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
     };
   }
 
@@ -138,7 +138,7 @@ class CropperPage extends Component {
         Animated.multiply(-1, this.state.bottomPosition.y)
       ),
       width: W,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
     };
   }
 
@@ -155,7 +155,7 @@ class CropperPage extends Component {
         )
       ),
       right: this.state.RIGHT_LIMIT,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
     };
   }
 
@@ -671,6 +671,7 @@ CropperPage.propTypes = {
   BOTTOM_VALUE: PropTypes.number,
   RIGHT_VALUE: PropTypes.number,
   initialRotation: PropTypes.number,
+  NOT_SELECTED_AREA_OPACITY: PropTypes.number,
 };
 
 export default CropperPage;
