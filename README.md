@@ -30,7 +30,7 @@ This component depend on `react-native-image-rotate` library. It needs to be ins
 | imageHeight | `number` | The height (in pixels) of the image you passed in `imageUri` |
 | initialRotation | `number` | Number which set the default rotation of the image when cropper is initialized.</br> Default is `0` |
 | footerComponent | `component` | Custom component for footer. Default is `    <DefaultFooter doneText='DONE' rotateText='ROTATE' cancelText='CANCEL' />`|
-| NOT_SELECTED_AREA_OPACITY | `number` | The opacity of the area which is not selected by the cropper. Should be a value between 0 and 1. Default is 0.5|
+| NOT_SELECTED_AREA_OPACITY | `number` | The opacity of the area which is not selected by the cropper. Should be a value between `0` and `1`. Default is `0.5`|
 
 
 #### Usage example 1 (using the default footer)
