@@ -74,6 +74,7 @@ class AmazingCropperPage extends Component {
         imageUri='https://www.lifeofpix.com/wp-content/uploads/2018/09/manhattan_-11-1600x2396.jpg'
         imageWidth={1600}
         imageHeight={2396}
+        NOT_SELECTED_AREA_OPACITY={0.3}
       />
     );
   }
