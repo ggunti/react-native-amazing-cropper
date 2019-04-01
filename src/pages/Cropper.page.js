@@ -2,52 +2,54 @@ import React, { Component } from 'react';
 import { ImageEditor, Animated, PanResponder } from 'react-native';
 import RNImageRotate from 'react-native-image-rotate';
 import PropTypes from 'prop-types';
-import { SCREEN_WIDTH, SCREEN_HEIGHT, W, H, Q, W_INT, H_INT, BW } from '../components/Cropper/Cropper.constants';
+import { SCREEN_WIDTH, SCREEN_HEIGHT, W, H, Q } from '../components/Cropper/Cropper.constants';
 import Cropper from '../components/Cropper/Cropper.component';
 import { getCropperLimits } from '../utils';
 
 class CropperPage extends Component {
   constructor(props) {
     super(props);
-    const { imageWidth, imageHeight } = props;
+    const { imageWidth, imageHeight, BORDER_WIDTH } = props;
+    const W_INT = W - (2 * BORDER_WIDTH);
+    const H_INT = H - (2 * BORDER_WIDTH);
     const {
       TOP_LIMIT,
       LEFT_LIMIT,
       BOTTOM_LIMIT,
       RIGHT_LIMIT,
       DIFF
-    } = getCropperLimits(imageWidth, imageHeight, props.initialRotation, W_INT, H_INT, W, H, BW, Q);
+    } = getCropperLimits(imageWidth, imageHeight, props.initialRotation, W_INT, H_INT, W, H, BORDER_WIDTH, Q);
 
     const TOP_VALUE = props.TOP_VALUE !== 0 ? props.TOP_VALUE : TOP_LIMIT;
     const LEFT_VALUE = props.LEFT_VALUE !== 0 ? props.LEFT_VALUE : LEFT_LIMIT;
     const BOTTOM_VALUE = props.BOTTOM_VALUE !== 0 ? props.BOTTOM_VALUE : BOTTOM_LIMIT;
     const RIGHT_VALUE = props.RIGHT_VALUE !== 0 ? props.RIGHT_VALUE : RIGHT_LIMIT;
 
-    const topOuterPosition = new Animated.ValueXY({ x: LEFT_VALUE - BW, y: TOP_VALUE - BW });
+    const topOuterPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: TOP_VALUE - BORDER_WIDTH });
     const topOuterPanResponder = new PanResponder.create({ onStartShouldSetPanResponder: () => false });
-    const leftOuterPosition = new Animated.ValueXY({ x: LEFT_VALUE - BW, y: TOP_VALUE - BW });
+    const leftOuterPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: TOP_VALUE - BORDER_WIDTH });
     const leftOuterPanResponder = new PanResponder.create({ onStartShouldSetPanResponder: () => false });
-    const bottomOuterPosition = new Animated.ValueXY({ x: LEFT_VALUE - BW, y: SCREEN_HEIGHT - BOTTOM_VALUE });
+    const bottomOuterPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: SCREEN_HEIGHT - BOTTOM_VALUE });
     const bottomOuterPanResponder = new PanResponder.create({ onStartShouldSetPanResponder: () => false });
-    const rightOuterPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BW });
+    const rightOuterPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BORDER_WIDTH });
     const rightOuterPanResponder = new PanResponder.create({ onStartShouldSetPanResponder: () => false });
 
-    const topPosition = new Animated.ValueXY({ x: LEFT_VALUE - BW, y: TOP_VALUE - BW });
+    const topPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: TOP_VALUE - BORDER_WIDTH });
     const topPanResponder = this.initSidePanResponder('topPosition');
-    const leftPosition = new Animated.ValueXY({ x: LEFT_VALUE - BW, y: TOP_VALUE - BW });
+    const leftPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: TOP_VALUE - BORDER_WIDTH });
     const leftPanResponder = this.initSidePanResponder('leftPosition');
-    const bottomPosition = new Animated.ValueXY({ x: LEFT_VALUE - BW, y: SCREEN_HEIGHT - BOTTOM_VALUE });
+    const bottomPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: SCREEN_HEIGHT - BOTTOM_VALUE });
     const bottomPanResponder = this.initSidePanResponder('bottomPosition');
-    const rightPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BW - (DIFF / 2) });
+    const rightPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BORDER_WIDTH - (DIFF / 2) });
     const rightPanResponder = this.initSidePanResponder('rightPosition');
 
-    const topLeftPosition = new Animated.ValueXY({ x: LEFT_VALUE - BW, y: TOP_VALUE - BW });
+    const topLeftPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: TOP_VALUE - BORDER_WIDTH });
     const topLeftPanResponder = this.initCornerPanResponder('topPosition', 'leftPosition');
-    const bottomLeftPosition = new Animated.ValueXY({ x: LEFT_VALUE - BW, y: SCREEN_HEIGHT - BOTTOM_VALUE });
+    const bottomLeftPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: SCREEN_HEIGHT - BOTTOM_VALUE });
     const bottomLeftPanResponder = this.initCornerPanResponder('bottomPosition', 'leftPosition');
     const bottomRightPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: SCREEN_HEIGHT - BOTTOM_VALUE });
     const bottomRightPanResponder = this.initCornerPanResponder('bottomPosition', 'rightPosition');
-    const topRightPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BW });
+    const topRightPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BORDER_WIDTH });
     const topRightPanResponder = this.initCornerPanResponder('topPosition', 'rightPosition');
 
     const rectanglePosition = new Animated.ValueXY({ x: LEFT_VALUE, y: TOP_VALUE });
@@ -105,7 +107,7 @@ class CropperPage extends Component {
       ...this.state.topOuterPosition.getLayout(),
       top: this.state.TOP_LIMIT,
       left: this.state.LEFT_LIMIT,
-      height: Animated.add(BW - this.state.TOP_LIMIT, this.state.topPosition.y),
+      height: Animated.add(this.props.BORDER_WIDTH - this.state.TOP_LIMIT, this.state.topPosition.y),
       width: W,
       backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
     };
@@ -114,16 +116,16 @@ class CropperPage extends Component {
   getLeftOuterStyle = () => {
     return {
       ...this.state.leftOuterPosition.getLayout(),
-      top: Animated.add(BW, this.state.topPosition.y),
+      top: Animated.add(this.props.BORDER_WIDTH, this.state.topPosition.y),
       left: this.state.LEFT_LIMIT,
       height: Animated.add(
-        -BW,
+        -this.props.BORDER_WIDTH,
         Animated.add(
           this.state.bottomPosition.y,
           Animated.multiply(-1, this.state.topPosition.y)
         )
       ),
-      width: Animated.add(BW - this.state.LEFT_LIMIT, this.state.leftPosition.x),
+      width: Animated.add(this.props.BORDER_WIDTH - this.state.LEFT_LIMIT, this.state.leftPosition.x),
       backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
     };
   }
@@ -145,10 +147,10 @@ class CropperPage extends Component {
   getRightOuterStyle = () => {
     return {
       ...this.state.rightOuterPosition.getLayout(),
-      top: Animated.add(BW, this.state.topPosition.y),
+      top: Animated.add(this.props.BORDER_WIDTH, this.state.topPosition.y),
       left: this.state.rightPosition.x,
       height: Animated.add(
-        -BW,
+        -this.props.BORDER_WIDTH,
         Animated.add(
           this.state.bottomPosition.y,
           Animated.multiply(-1, this.state.topPosition.y)
@@ -164,8 +166,8 @@ class CropperPage extends Component {
       ...this.state.topLeftPosition.getLayout(),
       top: this.state.topPosition.y,
       left: this.state.leftPosition.x,
-      width: BW,
-      paddingBottom: BW,
+      width: this.props.BORDER_WIDTH,
+      paddingBottom: this.props.BORDER_WIDTH,
     };
   }
 
@@ -174,8 +176,8 @@ class CropperPage extends Component {
       ...this.state.bottomLeftPosition.getLayout(),
       top: this.state.bottomPosition.y,
       left: this.state.leftPosition.x,
-      width: BW,
-      paddingTop: BW,
+      width: this.props.BORDER_WIDTH,
+      paddingTop: this.props.BORDER_WIDTH,
     };
   }
 
@@ -184,8 +186,8 @@ class CropperPage extends Component {
       ...this.state.bottomRightPosition.getLayout(),
       top: this.state.bottomPosition.y,
       left: this.state.rightPosition.x,
-      height: BW,
-      paddingLeft: BW,
+      height: this.props.BORDER_WIDTH,
+      paddingLeft: this.props.BORDER_WIDTH,
     };
   }
 
@@ -194,85 +196,85 @@ class CropperPage extends Component {
       ...this.state.topRightPosition.getLayout(),
       top: this.state.topPosition.y,
       left: this.state.rightPosition.x,
-      height: BW,
-      paddingLeft: BW,
+      height: this.props.BORDER_WIDTH,
+      paddingLeft: this.props.BORDER_WIDTH,
     };
   }
 
   getTopSideStyle = () => {
     return {
       ...this.state.topPosition.getLayout(),
-      left: Animated.add(BW, this.state.leftPosition.x),
+      left: Animated.add(this.props.BORDER_WIDTH, this.state.leftPosition.x),
       width: Animated.add(
-        -BW,
+        -this.props.BORDER_WIDTH,
         Animated.add(
           this.state.rightPosition.x,
           Animated.multiply(-1, this.state.leftPosition.x)
         )
       ),
-      paddingBottom: BW,
+      paddingBottom: this.props.BORDER_WIDTH,
     };
   }
 
   getLeftSideStyle = () => {
     return {
       ...this.state.leftPosition.getLayout(),
-      top: Animated.add(BW, this.state.topPosition.y),
+      top: Animated.add(this.props.BORDER_WIDTH, this.state.topPosition.y),
       height: Animated.add(
-        -BW,
+        -this.props.BORDER_WIDTH,
         Animated.add(
           this.state.bottomPosition.y,
           Animated.multiply(-1, this.state.topPosition.y)
         ),
       ),
-      paddingLeft: BW,
+      paddingLeft: this.props.BORDER_WIDTH,
     };
   }
 
   getBottomSideStyle = () => {
     return {
       ...this.state.bottomPosition.getLayout(),
-      left: Animated.add(BW, this.state.leftPosition.x),
+      left: Animated.add(this.props.BORDER_WIDTH, this.state.leftPosition.x),
       width: Animated.add(
-        -BW,
+        -this.props.BORDER_WIDTH,
         Animated.add(
           this.state.rightPosition.x,
           Animated.multiply(-1, this.state.leftPosition.x)
         )
       ),
-      paddingTop: BW,
+      paddingTop: this.props.BORDER_WIDTH,
     };
   }
 
   getRightSideStyle = () => {
     return {
       ...this.state.rightPosition.getLayout(),
-      top: Animated.add(BW, this.state.topPosition.y),
+      top: Animated.add(this.props.BORDER_WIDTH, this.state.topPosition.y),
       height: Animated.add(
-        -BW,
+        -this.props.BORDER_WIDTH,
         Animated.add(
           this.state.bottomPosition.y,
           Animated.multiply(-1, this.state.topPosition.y)
         )
       ),
-      paddingLeft: BW,
+      paddingLeft: this.props.BORDER_WIDTH,
     };
   }
 
   getRectangleStyle = () => {
     return {
       ...this.state.rectanglePosition.getLayout(),
-      top: Animated.add(BW, this.state.topPosition.y),
-      left: Animated.add(BW, this.state.leftPosition.x),
+      top: Animated.add(this.props.BORDER_WIDTH, this.state.topPosition.y),
+      left: Animated.add(this.props.BORDER_WIDTH, this.state.leftPosition.x),
       width: Animated.add(
-        -BW,
+        -this.props.BORDER_WIDTH,
         Animated.add(
           this.state.rightPosition.x,
           Animated.multiply(-1, this.state.leftPosition.x)
         )
       ),
       height: Animated.add(
-        -BW,
+        -this.props.BORDER_WIDTH,
         Animated.add(
           this.state.bottomPosition.y,
           Animated.multiply(-1, this.state.topPosition.y)
@@ -298,20 +300,20 @@ class CropperPage extends Component {
   }
 
   isAllowedToMoveTopSide = (gesture) => {
-    return this.state.topPosition.y._offset + gesture.dy >= this.state.TOP_LIMIT - BW &&
-      this.state.topPosition.y._offset + gesture.dy + BW + 1 < this.state.bottomPosition.y._offset;
+    return this.state.topPosition.y._offset + gesture.dy >= this.state.TOP_LIMIT - this.props.BORDER_WIDTH &&
+      this.state.topPosition.y._offset + gesture.dy + this.props.BORDER_WIDTH + 1 < this.state.bottomPosition.y._offset;
   }
   isAllowedToMoveLeftSide = (gesture) => {
-    return this.state.leftPosition.x._offset + gesture.dx >= this.state.LEFT_LIMIT - BW &&
-      this.state.leftPosition.x._offset + gesture.dx + BW + 1 < this.state.rightPosition.x._offset;
+    return this.state.leftPosition.x._offset + gesture.dx >= this.state.LEFT_LIMIT - this.props.BORDER_WIDTH &&
+      this.state.leftPosition.x._offset + gesture.dx + this.props.BORDER_WIDTH + 1 < this.state.rightPosition.x._offset;
   }
   isAllowedToMoveBottomSide = (gesture) => {
     return this.state.bottomPosition.y._offset + gesture.dy <= SCREEN_HEIGHT - this.state.BOTTOM_LIMIT &&
-        this.state.topPosition.y._offset + BW + 1 < this.state.bottomPosition.y._offset + gesture.dy;
+        this.state.topPosition.y._offset + this.props.BORDER_WIDTH + 1 < this.state.bottomPosition.y._offset + gesture.dy;
   }
   isAllowedToMoveRightSide = (gesture) => {
     return this.state.rightPosition.x._offset + gesture.dx <= SCREEN_WIDTH - this.state.RIGHT_LIMIT &&
-        this.state.leftPosition.x._offset + BW + 1 < this.state.rightPosition.x._offset + gesture.dx;
+        this.state.leftPosition.x._offset + this.props.BORDER_WIDTH + 1 < this.state.rightPosition.x._offset + gesture.dx;
   }
 
   isAllowedToMove = (position, gesture) => {
@@ -379,41 +381,41 @@ class CropperPage extends Component {
         this.state.bottomPosition.flattenOffset();
         this.state.rightPosition.flattenOffset();
 
-        const width = this.state.rightPosition.x._value - this.state.leftPosition.x._value - BW;
-        const height = this.state.bottomPosition.y._value - this.state.topPosition.y._value - BW;
+        const width = this.state.rightPosition.x._value - this.state.leftPosition.x._value - this.props.BORDER_WIDTH;
+        const height = this.state.bottomPosition.y._value - this.state.topPosition.y._value - this.props.BORDER_WIDTH;
         let isOutside = false;
 
-        if (this.state.leftPosition.x._value < this.state.LEFT_LIMIT - BW) {
+        if (this.state.leftPosition.x._value < this.state.LEFT_LIMIT - this.props.BORDER_WIDTH) {
           isOutside = true;
           Animated.parallel([
-            Animated.spring(this.state.leftPosition.x, { toValue: this.state.LEFT_LIMIT - BW }),
+            Animated.spring(this.state.leftPosition.x, { toValue: this.state.LEFT_LIMIT - this.props.BORDER_WIDTH }),
             Animated.spring(this.state.rightPosition.x, { toValue: this.state.LEFT_LIMIT + width })
           ]).start(
             () => { this.isRectangleMoving = false; }
           );
         }
-        if (this.state.topPosition.y._value < this.state.TOP_LIMIT - BW) {
+        if (this.state.topPosition.y._value < this.state.TOP_LIMIT - this.props.BORDER_WIDTH) {
           isOutside = true;
           Animated.parallel([
-            Animated.spring(this.state.topPosition.y, { toValue: this.state.TOP_LIMIT - BW }),
+            Animated.spring(this.state.topPosition.y, { toValue: this.state.TOP_LIMIT - this.props.BORDER_WIDTH }),
             Animated.spring(this.state.bottomPosition.y, { toValue: this.state.TOP_LIMIT + height })
           ]).start(
             () => { this.isRectangleMoving = false; }
           );
         }
-        if (width + this.state.leftPosition.x._value + BW > SCREEN_WIDTH - this.state.RIGHT_LIMIT) {
+        if (width + this.state.leftPosition.x._value + this.props.BORDER_WIDTH > SCREEN_WIDTH - this.state.RIGHT_LIMIT) {
           isOutside = true;
           Animated.parallel([
-            Animated.spring(this.state.leftPosition.x, { toValue: SCREEN_WIDTH - this.state.RIGHT_LIMIT - width - BW }),
+            Animated.spring(this.state.leftPosition.x, { toValue: SCREEN_WIDTH - this.state.RIGHT_LIMIT - width - this.props.BORDER_WIDTH }),
             Animated.spring(this.state.rightPosition.x, { toValue: SCREEN_WIDTH - this.state.RIGHT_LIMIT })
           ]).start(
             () => { this.isRectangleMoving = false; }
           );
         }
-        if (height + this.state.topPosition.y._value + BW > SCREEN_HEIGHT - this.state.BOTTOM_LIMIT) {
+        if (height + this.state.topPosition.y._value + this.props.BORDER_WIDTH > SCREEN_HEIGHT - this.state.BOTTOM_LIMIT) {
           isOutside = true;
           Animated.parallel([
-            Animated.spring(this.state.topPosition.y, { toValue: SCREEN_HEIGHT - this.state.BOTTOM_LIMIT - height - BW }),
+            Animated.spring(this.state.topPosition.y, { toValue: SCREEN_HEIGHT - this.state.BOTTOM_LIMIT - height - this.props.BORDER_WIDTH }),
             Animated.spring(this.state.bottomPosition.y, { toValue: SCREEN_HEIGHT - this.state.BOTTOM_LIMIT })
           ]).start(
             () => { this.isRectangleMoving = false; }
@@ -506,6 +508,8 @@ class CropperPage extends Component {
   }
 
   onRotate = () => {
+    const W_INT = W - (2 * this.props.BORDER_WIDTH);
+    const H_INT = H - (2 * this.props.BORDER_WIDTH);
     let imageWidth = 0;
     let imageHeight = 0;
     let rotation = 0;
@@ -524,15 +528,15 @@ class CropperPage extends Component {
       BOTTOM_LIMIT,
       RIGHT_LIMIT,
       DIFF
-    } = getCropperLimits(imageWidth, imageHeight, rotation, W_INT, H_INT, W, H, BW, Q);
+    } = getCropperLimits(imageWidth, imageHeight, rotation, W_INT, H_INT, W, H, this.props.BORDER_WIDTH, Q);
     this.rotate90();
     this.setCropBoxLimits({ TOP_LIMIT, LEFT_LIMIT, BOTTOM_LIMIT, RIGHT_LIMIT });
-    const startPositionBeforeRotationX = (this.state.leftPosition.x._value - this.state.LEFT_LIMIT) + BW;
-    const startPositionBeforeRotationY = (this.state.topPosition.y._value - this.state.TOP_LIMIT) + BW;
+    const startPositionBeforeRotationX = (this.state.leftPosition.x._value - this.state.LEFT_LIMIT) + this.props.BORDER_WIDTH;
+    const startPositionBeforeRotationY = (this.state.topPosition.y._value - this.state.TOP_LIMIT) + this.props.BORDER_WIDTH;
     const imageWidthBeforeRotation = SCREEN_WIDTH - this.state.RIGHT_LIMIT - this.state.LEFT_LIMIT;
     const imageHeightBeforeRotation = SCREEN_HEIGHT - this.state.BOTTOM_LIMIT - this.state.TOP_LIMIT;
-    const rectangleWidthBeforeRotation = this.state.rightPosition.x._value - this.state.leftPosition.x._value - BW;
-    const rectangleHeightBeforeRotation = this.state.bottomPosition.y._value - this.state.topPosition.y._value - BW;
+    const rectangleWidthBeforeRotation = this.state.rightPosition.x._value - this.state.leftPosition.x._value - this.props.BORDER_WIDTH;
+    const rectangleHeightBeforeRotation = this.state.bottomPosition.y._value - this.state.topPosition.y._value - this.props.BORDER_WIDTH;
     const imageWidthAfterRotation = SCREEN_WIDTH - RIGHT_LIMIT - LEFT_LIMIT;
     const imageHeightAfterRotation = SCREEN_HEIGHT - BOTTOM_LIMIT - TOP_LIMIT;
     const rectangleWidthAfterRotation = (imageWidthAfterRotation * rectangleHeightBeforeRotation) / imageHeightBeforeRotation;
@@ -543,20 +547,20 @@ class CropperPage extends Component {
     ) / imageWidthBeforeRotation;
 
     this.state.topPosition.setValue({
-      x: (LEFT_LIMIT + startPositionAfterRotationX) - BW,
-      y: (TOP_LIMIT + startPositionAfterRotationY) - BW
+      x: (LEFT_LIMIT + startPositionAfterRotationX) - this.props.BORDER_WIDTH,
+      y: (TOP_LIMIT + startPositionAfterRotationY) - this.props.BORDER_WIDTH
     });
     this.state.leftPosition.setValue({
-      x: (LEFT_LIMIT + startPositionAfterRotationX) - BW,
-      y: (TOP_LIMIT + startPositionAfterRotationY) - BW
+      x: (LEFT_LIMIT + startPositionAfterRotationX) - this.props.BORDER_WIDTH,
+      y: (TOP_LIMIT + startPositionAfterRotationY) - this.props.BORDER_WIDTH
     });
     this.state.bottomPosition.setValue({
-      x: (LEFT_LIMIT + startPositionAfterRotationX) - BW,
+      x: (LEFT_LIMIT + startPositionAfterRotationX) - this.props.BORDER_WIDTH,
       y: TOP_LIMIT + startPositionAfterRotationY + rectangleHeightAfterRotation
     });
     this.state.rightPosition.setValue({
       x: LEFT_LIMIT + startPositionAfterRotationX + rectangleWidthAfterRotation,
-      y: (TOP_LIMIT + startPositionAfterRotationY) - BW - (DIFF / 2)
+      y: (TOP_LIMIT + startPositionAfterRotationY) - this.props.BORDER_WIDTH - (DIFF / 2)
     });
     this.topOuter.setNativeProps({ style: { top: TOP_LIMIT, height: 0 } });
     this.leftOuter.setNativeProps({ style: { left: LEFT_LIMIT, width: 0 } });
@@ -570,10 +574,10 @@ class CropperPage extends Component {
     //this.setState({ isSaving: true });
     const IMAGE_W = SCREEN_WIDTH - this.state.RIGHT_LIMIT - this.state.LEFT_LIMIT;
     const IMAGE_H = SCREEN_HEIGHT - this.state.BOTTOM_LIMIT - this.state.TOP_LIMIT;
-    let x = (this.state.leftPosition.x._value - this.state.LEFT_LIMIT) + BW;
-    let y = (this.state.topPosition.y._value - this.state.TOP_LIMIT) + BW;
-    let width = this.state.rightPosition.x._value - this.state.leftPosition.x._value - BW;
-    let height = this.state.bottomPosition.y._value - this.state.topPosition.y._value - BW;
+    let x = (this.state.leftPosition.x._value - this.state.LEFT_LIMIT) + this.props.BORDER_WIDTH;
+    let y = (this.state.topPosition.y._value - this.state.TOP_LIMIT) + this.props.BORDER_WIDTH;
+    let width = this.state.rightPosition.x._value - this.state.leftPosition.x._value - this.props.BORDER_WIDTH;
+    let height = this.state.bottomPosition.y._value - this.state.topPosition.y._value - this.props.BORDER_WIDTH;
     let imageWidth = this.props.imageWidth > 0 ? this.props.imageWidth : 1280; // 340
     let imageHeight = this.props.imageHeight > 0 ? this.props.imageHeight : 747; // 500
     if (this.state.rotation % 180 === 90) {

@@ -31,6 +31,7 @@ This component depend on `react-native-image-rotate` library. It needs to be ins
 | initialRotation | `number` | Number which set the default rotation of the image when cropper is initialized.</br> Default is `0` |
 | footerComponent | `component` | Custom component for footer. Default is `    <DefaultFooter doneText='DONE' rotateText='ROTATE' cancelText='CANCEL' />`|
 | NOT_SELECTED_AREA_OPACITY | `number` | The opacity of the area which is not selected by the cropper. Should be a value between `0` and `1`. Default is `0.5`|
+| BORDER_WIDTH | `number` | The border width [(see image)](https://i.imgur.com/CMSS953.png). Default is `50`|
 
 
 #### Usage example 1 (using the default footer)
@@ -75,6 +76,7 @@ class AmazingCropperPage extends Component {
         imageWidth={1600}
         imageHeight={2396}
         NOT_SELECTED_AREA_OPACITY={0.3}
+        BORDER_WIDTH={20}
       />
     );
   }
