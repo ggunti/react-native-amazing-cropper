@@ -257,3 +257,6 @@ class AmazingCropperPage extends Component {
 Simple Share: https://play.google.com/store/apps/details?id=com.sendfiles </br>
 Card Trick: https://play.google.com/store/apps/details?id=com.card_trick_2 </br>
 Swwwitch: https://play.google.com/store/apps/details?id=com.swwwitch
+
+### You need a mobile app for android & iOS? [Hire me](https://www.freelancer.com/hireme/gnttergotha)
+
