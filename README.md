@@ -12,12 +12,14 @@ Image cropper for react native made with Animated API (with rotation possibility
 <br/>
 <img src="https://i.imgur.com/Xf3PqJH.png" height="400" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/Ae4YRGS.png" height="400" />
 
-This component depend on `react-native-image-rotate` library. It needs to be installed and linked to your project before.
+This component depend on `react-native-image-rotate` and `@react-native-community/image-editor` libraries. They need to be installed and linked to your project before.
 
 **STEPS TO INSTALL:**
-1. `npm install --save react-native-image-rotate`
-2. `react-native link react-native-image-rotate`
-3. `npm install --save react-native-amazing-cropper`
+1.* `npm install --save react-native-image-rotate @react-native-community/image-editor`
+2. `react-native link react-native-image-rotate @react-native-community/image-editor`
+3.* `npm install --save react-native-amazing-cropper`
+
+Step 2 is not needed for react-native >= 0.60 because of autolinking. Instead run `pod install` inside `ios` directory.
 
 #### Properties
 -------------
@@ -38,33 +40,17 @@ This component depend on `react-native-image-rotate` library. It needs to be ins
 -------------
 ```javascript
 import React, { Component } from 'react';
-import { Platform, ImageStore } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import AmazingCropper from 'react-native-amazing-cropper';;
 
 class AmazingCropperPage extends Component {
   onDone = (croppedImageUri) => {
     console.log('croppedImageUri = ', croppedImageUri);
-    if (Platform.OS === 'ios') {
-      ImageStore.getBase64ForTag(
-        croppedImageUri,
-        (base64Image) => {
-          // send image to server or save it locally
-          ImageStore.removeImageForTag(croppedImageUri);
-        },
-        (err) => {}
-      );
-    }
-    else {
-      // send image to server
-    }
-    // navigate to the next page of your application
-    Actions.home();
+    // send image to server for example
   }
 
   onCancel = () => {
+    console.log('Cancel button was pressed');
     // navigate back
-    Actions.pop();
   }
 
   render() {
@@ -87,33 +73,17 @@ class AmazingCropperPage extends Component {
 -------------
 ```javascript
 import React, { Component } from 'react';
-import { Platform, ImageStore } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import AmazingCropper, { DefaultFooter } from 'react-native-amazing-cropper';
 
 class AmazingCropperPage extends Component {
   onDone = (croppedImageUri) => {
     console.log('croppedImageUri = ', croppedImageUri);
-    if (Platform.OS === 'ios') {
-      ImageStore.getBase64ForTag(
-        croppedImageUri,
-        (base64Image) => {
-          // send image to server or save it locally
-          ImageStore.removeImageForTag(croppedImageUri);
-        },
-        (err) => {}
-      );
-    }
-    else {
-      // send image to server
-    }
-    // navigate to the next page of your application
-    Actions.home();
+    // send image to server for example
   }
 
   onCancel = () => {
+    console.log('Cancel button was pressed');
     // navigate back
-    Actions.pop();
   }
 
   render() {
@@ -206,34 +176,18 @@ Now just pass your footer component to the Cropper like here:
 
 ```javascript
 import React, { Component } from 'react';
-import { Platform, ImageStore } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import AmazingCropper from 'react-native-amazing-cropper';
 import CustomCropperFooter from './src/components/CustomCropperFooter.component';
 
 class AmazingCropperPage extends Component {
   onDone = (croppedImageUri) => {
     console.log('croppedImageUri = ', croppedImageUri);
-    if (Platform.OS === 'ios') {
-      ImageStore.getBase64ForTag(
-        croppedImageUri,
-        (base64Image) => {
-          // send image to server or save it locally
-          ImageStore.removeImageForTag(croppedImageUri);
-        },
-        (err) => {}
-      );
-    }
-    else {
-      // send image to server
-    }
-    // navigate to the next page of your application
-    Actions.home();
+    // send image to server for example
   }
 
   onCancel = () => {
+    console.log('Cancel button was pressed');
     // navigate back
-    Actions.pop();
   }
 
   render() {
@@ -259,4 +213,3 @@ Card Trick: https://play.google.com/store/apps/details?id=com.card_trick_2 </br>
 Swwwitch: https://play.google.com/store/apps/details?id=com.swwwitch
 
 ### You need a mobile app for android & iOS? [Hire me](https://www.freelancer.com/hireme/gnttergotha)
-
