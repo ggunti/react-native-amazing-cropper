@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Animated, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './Cropper.component.style';
-import DefaultFooter from '../Footer/DefaultFooter.component';
 
 const Cropper = (props) => (
   <View style={styles.container}>
@@ -14,9 +13,9 @@ const Cropper = (props) => (
     </View>
     
     <View style={styles.footerContainer}>
-      { 
+      {
         React.cloneElement(
-          props.footerComponent, 
+          props.footerComponent,
           {
             onDone: props.onDone,
             onRotate: props.onRotate,
@@ -120,7 +119,7 @@ const Cropper = (props) => (
       </View>
     </Animated.View>
   </View>
-)
+);
 
 Cropper.propTypes = {
   imageUri: PropTypes.string,

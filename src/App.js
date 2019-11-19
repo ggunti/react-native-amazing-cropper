@@ -19,7 +19,7 @@ const App = (props) => (
     NOT_SELECTED_AREA_OPACITY={props.NOT_SELECTED_AREA_OPACITY}
     BORDER_WIDTH={props.BORDER_WIDTH}
   />
-)
+);
 
 
 App.propTypes = {

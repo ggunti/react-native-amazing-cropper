@@ -22,7 +22,8 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-image-rotate": "*"
+    "react-native-image-rotate": "*",
+    "@react-native-community/image-editor": "*"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",

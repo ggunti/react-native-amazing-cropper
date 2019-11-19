@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './DefaultFooter.component.style';
@@ -15,7 +15,7 @@ const DefaultFooter = (props) => (
       <Text style={styles.text}>{props.doneText}</Text>
     </TouchableOpacity>
   </View>
-)
+);
 
 DefaultFooter.propTypes = {
   onDone: PropTypes.func,
@@ -24,6 +24,6 @@ DefaultFooter.propTypes = {
   doneText: PropTypes.string,
   rotateText: PropTypes.string,
   cancelText: PropTypes.string
-}
+};
 
 export default DefaultFooter;

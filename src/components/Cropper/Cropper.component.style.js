@@ -17,9 +17,9 @@ export default StyleSheet.create({
     height: SCREEN_HEIGHT,
   },
   footerContainer: {
-    position: 'absolute', 
-    top: SCREEN_HEIGHT - Q, 
-    bottom: 0, 
+    position: 'absolute',
+    top: SCREEN_HEIGHT - Q,
+    bottom: 0,
     width: W
   },
   gridRow: {
@@ -93,8 +93,6 @@ export default StyleSheet.create({
     height: 30,
     borderColor: 'white'
   },
-  
-  
   icon: {
     paddingRight: 10,
     flexDirection: 'row',
@@ -103,7 +101,6 @@ export default StyleSheet.create({
     width: '100%',
     height: 50,
     backgroundColor: '#5a2480',
-    justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
     flexDirection: 'row',
