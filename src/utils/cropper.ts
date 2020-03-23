@@ -1,4 +1,13 @@
-const getCropperLimitsIfHorizontally = (imageWidth, imageHeight, W_INT, H_INT, W, H, BW, Q) => {
+function getCropperLimitsIfHorizontally(
+  imageWidth: number,
+  imageHeight: number,
+  W_INT: number,
+  H_INT: number,
+  _W: number,
+  _H: number,
+  BW: number,
+  Q: number,
+) {
   let TOP_LIMIT = 0;
   let LEFT_LIMIT = 0;
   let BOTTOM_LIMIT = 0;
@@ -35,9 +44,18 @@ const getCropperLimitsIfHorizontally = (imageWidth, imageHeight, W_INT, H_INT, W
   }
 
   return { TOP_LIMIT, LEFT_LIMIT, BOTTOM_LIMIT, RIGHT_LIMIT, DIFF };
-};
+}
 
-const getCropperLimitsIfVertically = (imageWidth, imageHeight, W_INT, H_INT, W, H, BW, Q) => {
+function getCropperLimitsIfVertically(
+  imageWidth: number,
+  imageHeight: number,
+  W_INT: number,
+  H_INT: number,
+  W: number,
+  H: number,
+  _BW: number,
+  Q: number,
+) {
   let TOP_LIMIT = 0;
   let LEFT_LIMIT = 0;
   let BOTTOM_LIMIT = 0;
@@ -76,20 +94,29 @@ const getCropperLimitsIfVertically = (imageWidth, imageHeight, W_INT, H_INT, W, 
   const Lnew = (W - w) / 2;
   const Rnew = Lnew;
   DIFF = h - w;
-  TOP_LIMIT = Tnew + (DIFF / 2);
-  LEFT_LIMIT = Lnew - (DIFF / 2);
-  BOTTOM_LIMIT = Bnew + (DIFF / 2);
-  RIGHT_LIMIT = Rnew - (DIFF / 2);
+  TOP_LIMIT = Tnew + DIFF / 2;
+  LEFT_LIMIT = Lnew - DIFF / 2;
+  BOTTOM_LIMIT = Bnew + DIFF / 2;
+  RIGHT_LIMIT = Rnew - DIFF / 2;
 
   return { TOP_LIMIT, LEFT_LIMIT, BOTTOM_LIMIT, RIGHT_LIMIT, DIFF };
-};
+}
 
-
-const getCropperLimits = (imageWidth, imageHeight, rotation, W_INT, H_INT, W, H, BW, Q) => {
+function getCropperLimits(
+  imageWidth: number,
+  imageHeight: number,
+  rotation: number,
+  W_INT: number,
+  H_INT: number,
+  W: number,
+  H: number,
+  BW: number,
+  Q: number,
+) {
   if (rotation % 180 === 0) {
     return getCropperLimitsIfHorizontally(imageWidth, imageHeight, W_INT, H_INT, W, H, BW, Q);
   }
   return getCropperLimitsIfVertically(imageWidth, imageHeight, W_INT, H_INT, W, H, BW, Q);
-};
+}
 
 export { getCropperLimits };

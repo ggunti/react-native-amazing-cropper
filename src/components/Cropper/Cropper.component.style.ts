@@ -7,7 +7,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'black'
+    backgroundColor: 'black',
   },
   secondContainer: {
     position: 'absolute',
@@ -20,16 +20,16 @@ export default StyleSheet.create({
     position: 'absolute',
     top: SCREEN_HEIGHT - Q,
     bottom: 0,
-    width: W
+    width: W,
   },
   gridRow: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   gridColumn: {
     flex: 1,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.5)'
+    borderColor: 'rgba(255, 255, 255, 0.5)',
   },
   animation: {
     position: 'absolute',
@@ -38,12 +38,12 @@ export default StyleSheet.create({
   topSideAnimation: {
     borderBottomWidth: 20,
     borderColor: 'transparent',
-    zIndex: 4
+    zIndex: 4,
   },
   leftSideAnimation: {
     borderRightWidth: 20,
     borderColor: 'transparent',
-    zIndex: 4
+    zIndex: 4,
   },
   bottomSideAnimation: {
     borderTopWidth: 20,
@@ -55,7 +55,7 @@ export default StyleSheet.create({
     borderLeftWidth: 20,
     borderColor: 'transparent',
     zIndex: 4,
-    transform: [{ translateX: -20 }]
+    transform: [{ translateX: -20 }],
   },
   topLeftAnimation: {
     borderLeftWidth: 56,
@@ -70,7 +70,7 @@ export default StyleSheet.create({
     borderBottomWidth: 31,
     borderColor: 'transparent',
     zIndex: 5,
-    transform: [{ translateY: -31 }]
+    transform: [{ translateY: -31 }],
   },
   bottomRightAnimation: {
     borderTopWidth: 25,
@@ -78,7 +78,7 @@ export default StyleSheet.create({
     borderBottomWidth: 56,
     borderColor: 'transparent',
     zIndex: 5,
-    transform: [{ translateX: -31 }, { translateY: -31 }]
+    transform: [{ translateX: -31 }, { translateY: -31 }],
   },
   topRightAnimation: {
     borderColor: 'transparent',
@@ -86,12 +86,12 @@ export default StyleSheet.create({
     borderRightWidth: 31,
     borderBottomWidth: 25,
     zIndex: 5,
-    transform: [{ translateX: -31 }]
+    transform: [{ translateX: -31 }],
   },
   borderDesign: {
     width: 30,
     height: 30,
-    borderColor: 'white'
+    borderColor: 'white',
   },
   icon: {
     paddingRight: 10,
@@ -108,7 +108,7 @@ export default StyleSheet.create({
     bottom: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   rightNav: {
     flexDirection: 'row',

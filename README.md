@@ -1,6 +1,8 @@
 # react-native-amazing-cropper
 Image cropper for react native made with Animated API (with rotation possibility) - **for iOS & android**
 
+<p><b>NEW: </b> This library was rewritten in <b>Typescript</b>. I am new to typescript, so if you have suggestions, PR's are welcome.</p>
+
 <img src="https://i.imgur.com/c5lqfLr.png" height="400" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/HNHkWQ7.png" height="400" />
 <br/>
 <img src="https://i.imgur.com/iyhmNav.png" height="400" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/5AJTFHZ.png" height="400" />
@@ -212,4 +214,4 @@ Simple Share: https://play.google.com/store/apps/details?id=com.sendfiles </br>
 Card Trick: https://play.google.com/store/apps/details?id=com.card_trick_2 </br>
 Swwwitch: https://play.google.com/store/apps/details?id=com.swwwitch
 
-### You need a mobile app for android & iOS? [Hire me](https://www.freelancer.com/hireme/gnttergotha)
+### You need a mobile app for android & iOS? [Hire me](https://order-software.com)

@@ -1,9 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
 import styles from './DefaultFooter.component.style';
 
-const DefaultFooter = (props) => (
+export type DefaultFooterProps = {
+  onDone?: () => any;
+  onRotate?: () => any;
+  onCancel?: () => any;
+  doneText: string;
+  rotateText: string;
+  cancelText: string;
+};
+
+const DefaultFooter: React.FC<DefaultFooterProps> = props => (
   <View style={styles.buttonsContainer}>
     <TouchableOpacity onPress={props.onCancel} style={styles.touchable}>
       <Text style={styles.text}>{props.cancelText}</Text>
@@ -16,14 +24,5 @@ const DefaultFooter = (props) => (
     </TouchableOpacity>
   </View>
 );
-
-DefaultFooter.propTypes = {
-  onDone: PropTypes.func,
-  onRotate: PropTypes.func,
-  onCancel: PropTypes.func,
-  doneText: PropTypes.string,
-  rotateText: PropTypes.string,
-  cancelText: PropTypes.string
-};
 
 export default DefaultFooter;
