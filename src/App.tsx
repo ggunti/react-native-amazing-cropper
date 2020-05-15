@@ -5,6 +5,7 @@ import DefaultFooter from './components/Footer/DefaultFooter.component';
 export type AmazingCropperProps = {
   footerComponent?: JSX.Element;
   onDone: (croppedImageUri: string) => void;
+  onError: (err: Error) => void;
   onCancel: () => void;
   imageUri: string;
   imageWidth: number;
@@ -21,6 +22,7 @@ export type AmazingCropperProps = {
 const defaultProps = {
   footerComponent: <DefaultFooter doneText='DONE' rotateText='ROTATE' cancelText='CANCEL' />,
   onDone: (_croppedImageUri: string) => {},
+  onError: (_err: Error) => {},
   onCancel: () => {},
   imageUri: '',
   imageWidth: 1280,
@@ -42,6 +44,7 @@ class App extends Component<AmazingCropperProps> {
       <Cropper
         footerComponent={this.props.footerComponent}
         onDone={this.props.onDone}
+        onError={this.props.onError}
         onCancel={this.props.onCancel}
         imageUri={this.props.imageUri}
         imageWidth={this.props.imageWidth}
