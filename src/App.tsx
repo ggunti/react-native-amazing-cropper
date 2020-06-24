@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Cropper from './pages/Cropper.page';
 import DefaultFooter from './components/Footer/DefaultFooter.component';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from './components/Cropper/Cropper.constants';
 
 export type AmazingCropperProps = {
   footerComponent?: JSX.Element;
@@ -17,6 +18,8 @@ export type AmazingCropperProps = {
   initialRotation?: number;
   NOT_SELECTED_AREA_OPACITY?: number;
   BORDER_WIDTH?: number;
+  COMPONENT_WIDTH?: number;
+  COMPONENT_HEIGHT?: number;
 } & typeof defaultProps;
 
 const defaultProps = {
@@ -34,6 +37,8 @@ const defaultProps = {
   initialRotation: 0,
   NOT_SELECTED_AREA_OPACITY: 0.5,
   BORDER_WIDTH: 50,
+  COMPONENT_WIDTH: SCREEN_WIDTH,
+  COMPONENT_HEIGHT: SCREEN_HEIGHT,
 };
 
 class App extends Component<AmazingCropperProps> {
@@ -56,6 +61,8 @@ class App extends Component<AmazingCropperProps> {
         initialRotation={this.props.initialRotation}
         NOT_SELECTED_AREA_OPACITY={this.props.NOT_SELECTED_AREA_OPACITY}
         BORDER_WIDTH={this.props.BORDER_WIDTH}
+        COMPONENT_WIDTH={this.props.COMPONENT_WIDTH}
+        COMPONENT_HEIGHT={this.props.COMPONENT_HEIGHT}
       />
     );
   }

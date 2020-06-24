@@ -3,7 +3,7 @@ import { Animated, PanResponder, PanResponderInstance, PanResponderGestureState,
 // @ts-ignore; 'react-native-image-rotate' does not have typescript support
 import RNImageRotate from 'react-native-image-rotate';
 import ImageEditor from '@react-native-community/image-editor';
-import { SCREEN_WIDTH, SCREEN_HEIGHT, W, H, Q } from '../components/Cropper/Cropper.constants';
+import { Q } from '../components/Cropper/Cropper.constants';
 import Cropper from '../components/Cropper/Cropper.component';
 import { getCropperLimits } from '../utils';
 
@@ -22,6 +22,8 @@ type CropperPageProps = {
   initialRotation: number;
   NOT_SELECTED_AREA_OPACITY: number;
   BORDER_WIDTH: number;
+  COMPONENT_WIDTH: number;
+  COMPONENT_HEIGHT: number;
 };
 
 interface ExtendedAnimatedValue extends Animated.Value {
@@ -82,17 +84,17 @@ interface State {
 class CropperPage extends Component<CropperPageProps, State> {
   constructor(props: CropperPageProps) {
     super(props);
-    const { imageWidth, imageHeight, BORDER_WIDTH } = props;
-    const W_INT = W - 2 * BORDER_WIDTH;
-    const H_INT = H - 2 * BORDER_WIDTH;
+    const { imageWidth, imageHeight, BORDER_WIDTH, COMPONENT_WIDTH, COMPONENT_HEIGHT } = props;
+    const W_INT = this.W - 2 * BORDER_WIDTH;
+    const H_INT = this.H - 2 * BORDER_WIDTH;
     const { TOP_LIMIT, LEFT_LIMIT, BOTTOM_LIMIT, RIGHT_LIMIT, DIFF } = getCropperLimits(
       imageWidth,
       imageHeight,
       props.initialRotation,
       W_INT,
       H_INT,
-      W,
-      H,
+      this.W,
+      this.H,
       BORDER_WIDTH,
       Q,
     );
@@ -106,27 +108,33 @@ class CropperPage extends Component<CropperPageProps, State> {
     const topOuterPanResponder = PanResponder.create({ onStartShouldSetPanResponder: () => false });
     const leftOuterPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: TOP_VALUE - BORDER_WIDTH }) as ExtendedAnimatedValueXY;
     const leftOuterPanResponder = PanResponder.create({ onStartShouldSetPanResponder: () => false });
-    const bottomOuterPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: SCREEN_HEIGHT - BOTTOM_VALUE }) as ExtendedAnimatedValueXY;
+    const bottomOuterPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: COMPONENT_HEIGHT - BOTTOM_VALUE }) as ExtendedAnimatedValueXY;
     const bottomOuterPanResponder = PanResponder.create({ onStartShouldSetPanResponder: () => false });
-    const rightOuterPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BORDER_WIDTH }) as ExtendedAnimatedValueXY;
+    const rightOuterPosition = new Animated.ValueXY({ x: COMPONENT_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BORDER_WIDTH }) as ExtendedAnimatedValueXY;
     const rightOuterPanResponder = PanResponder.create({ onStartShouldSetPanResponder: () => false });
 
     const topPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: TOP_VALUE - BORDER_WIDTH }) as ExtendedAnimatedValueXY;
     const topPanResponder = this.initSidePanResponder('topPosition');
     const leftPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: TOP_VALUE - BORDER_WIDTH }) as ExtendedAnimatedValueXY;
     const leftPanResponder = this.initSidePanResponder('leftPosition');
-    const bottomPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: SCREEN_HEIGHT - BOTTOM_VALUE }) as ExtendedAnimatedValueXY;
+    const bottomPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: COMPONENT_HEIGHT - BOTTOM_VALUE }) as ExtendedAnimatedValueXY;
     const bottomPanResponder = this.initSidePanResponder('bottomPosition');
-    const rightPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BORDER_WIDTH - DIFF / 2 }) as ExtendedAnimatedValueXY;
+    const rightPosition = new Animated.ValueXY({
+      x: COMPONENT_WIDTH - RIGHT_VALUE,
+      y: TOP_VALUE - BORDER_WIDTH - DIFF / 2,
+    }) as ExtendedAnimatedValueXY;
     const rightPanResponder = this.initSidePanResponder('rightPosition');
 
     const topLeftPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: TOP_VALUE - BORDER_WIDTH }) as ExtendedAnimatedValueXY;
     const topLeftPanResponder = this.initCornerPanResponder('topPosition', 'leftPosition');
-    const bottomLeftPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: SCREEN_HEIGHT - BOTTOM_VALUE }) as ExtendedAnimatedValueXY;
+    const bottomLeftPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: COMPONENT_HEIGHT - BOTTOM_VALUE }) as ExtendedAnimatedValueXY;
     const bottomLeftPanResponder = this.initCornerPanResponder('bottomPosition', 'leftPosition');
-    const bottomRightPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: SCREEN_HEIGHT - BOTTOM_VALUE }) as ExtendedAnimatedValueXY;
+    const bottomRightPosition = new Animated.ValueXY({
+      x: COMPONENT_WIDTH - RIGHT_VALUE,
+      y: COMPONENT_HEIGHT - BOTTOM_VALUE,
+    }) as ExtendedAnimatedValueXY;
     const bottomRightPanResponder = this.initCornerPanResponder('bottomPosition', 'rightPosition');
-    const topRightPosition = new Animated.ValueXY({ x: SCREEN_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BORDER_WIDTH }) as ExtendedAnimatedValueXY;
+    const topRightPosition = new Animated.ValueXY({ x: COMPONENT_WIDTH - RIGHT_VALUE, y: TOP_VALUE - BORDER_WIDTH }) as ExtendedAnimatedValueXY;
     const topRightPanResponder = this.initCornerPanResponder('topPosition', 'rightPosition');
 
     const rectanglePosition = new Animated.ValueXY({ x: LEFT_VALUE, y: TOP_VALUE }) as ExtendedAnimatedValueXY;
@@ -181,6 +189,8 @@ class CropperPage extends Component<CropperPageProps, State> {
   leftOuter = undefined;
   bottomOuter = undefined;
   rightOuter = undefined;
+  W = this.props.COMPONENT_WIDTH;
+  H = this.props.COMPONENT_HEIGHT - Q;
 
   onCancel = () => {
     this.props.onCancel();
@@ -192,7 +202,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       top: this.state.TOP_LIMIT,
       left: this.state.LEFT_LIMIT,
       height: Animated.add(this.props.BORDER_WIDTH - this.state.TOP_LIMIT, this.state.topPosition.y),
-      width: W,
+      width: this.W,
       backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
     };
   };
@@ -213,8 +223,8 @@ class CropperPage extends Component<CropperPageProps, State> {
       ...this.state.bottomOuterPosition.getLayout(),
       top: this.state.bottomPosition.y,
       left: this.state.LEFT_LIMIT,
-      height: Animated.add(SCREEN_HEIGHT - this.state.BOTTOM_LIMIT, Animated.multiply(-1, this.state.bottomPosition.y)),
-      width: W,
+      height: Animated.add(this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT, Animated.multiply(-1, this.state.bottomPosition.y)),
+      width: this.W,
       backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
     };
   };
@@ -344,13 +354,13 @@ class CropperPage extends Component<CropperPageProps, State> {
   };
   isAllowedToMoveBottomSide = (gesture: PanResponderGestureState) => {
     return (
-      this.state.bottomPosition.y._offset + gesture.dy <= SCREEN_HEIGHT - this.state.BOTTOM_LIMIT &&
+      this.state.bottomPosition.y._offset + gesture.dy <= this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT &&
       this.state.topPosition.y._offset + this.props.BORDER_WIDTH + 1 < this.state.bottomPosition.y._offset + gesture.dy
     );
   };
   isAllowedToMoveRightSide = (gesture: PanResponderGestureState) => {
     return (
-      this.state.rightPosition.x._offset + gesture.dx <= SCREEN_WIDTH - this.state.RIGHT_LIMIT &&
+      this.state.rightPosition.x._offset + gesture.dx <= this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT &&
       this.state.leftPosition.x._offset + this.props.BORDER_WIDTH + 1 < this.state.rightPosition.x._offset + gesture.dx
     );
   };
@@ -450,24 +460,24 @@ class CropperPage extends Component<CropperPageProps, State> {
             this.isRectangleMoving = false;
           });
         }
-        if (width + this.state.leftPosition.x._value + this.props.BORDER_WIDTH > SCREEN_WIDTH - this.state.RIGHT_LIMIT) {
+        if (width + this.state.leftPosition.x._value + this.props.BORDER_WIDTH > this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT) {
           isOutside = true;
           Animated.parallel([
             Animated.spring(this.state.leftPosition.x, {
-              toValue: SCREEN_WIDTH - this.state.RIGHT_LIMIT - width - this.props.BORDER_WIDTH,
+              toValue: this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT - width - this.props.BORDER_WIDTH,
             }),
-            Animated.spring(this.state.rightPosition.x, { toValue: SCREEN_WIDTH - this.state.RIGHT_LIMIT }),
+            Animated.spring(this.state.rightPosition.x, { toValue: this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT }),
           ]).start(() => {
             this.isRectangleMoving = false;
           });
         }
-        if (height + this.state.topPosition.y._value + this.props.BORDER_WIDTH > SCREEN_HEIGHT - this.state.BOTTOM_LIMIT) {
+        if (height + this.state.topPosition.y._value + this.props.BORDER_WIDTH > this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT) {
           isOutside = true;
           Animated.parallel([
             Animated.spring(this.state.topPosition.y, {
-              toValue: SCREEN_HEIGHT - this.state.BOTTOM_LIMIT - height - this.props.BORDER_WIDTH,
+              toValue: this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT - height - this.props.BORDER_WIDTH,
             }),
-            Animated.spring(this.state.bottomPosition.y, { toValue: SCREEN_HEIGHT - this.state.BOTTOM_LIMIT }),
+            Animated.spring(this.state.bottomPosition.y, { toValue: this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT }),
           ]).start(() => {
             this.isRectangleMoving = false;
           });
@@ -579,8 +589,8 @@ class CropperPage extends Component<CropperPageProps, State> {
   };
 
   onRotate = () => {
-    const W_INT = W - 2 * this.props.BORDER_WIDTH;
-    const H_INT = H - 2 * this.props.BORDER_WIDTH;
+    const W_INT = this.W - 2 * this.props.BORDER_WIDTH;
+    const H_INT = this.H - 2 * this.props.BORDER_WIDTH;
     let imageWidth = 0;
     let imageHeight = 0;
     let rotation = 0;
@@ -589,8 +599,8 @@ class CropperPage extends Component<CropperPageProps, State> {
       imageHeight = this.props.imageHeight > 0 ? this.props.imageHeight : 747; // 500
       rotation = 0;
     } else {
-      imageWidth = SCREEN_WIDTH - this.state.LEFT_LIMIT - this.state.RIGHT_LIMIT;
-      imageHeight = SCREEN_HEIGHT - this.state.TOP_LIMIT - this.state.BOTTOM_LIMIT;
+      imageWidth = this.props.COMPONENT_WIDTH - this.state.LEFT_LIMIT - this.state.RIGHT_LIMIT;
+      imageHeight = this.props.COMPONENT_HEIGHT - this.state.TOP_LIMIT - this.state.BOTTOM_LIMIT;
       rotation = 90;
     }
     const { TOP_LIMIT, LEFT_LIMIT, BOTTOM_LIMIT, RIGHT_LIMIT, DIFF } = getCropperLimits(
@@ -599,8 +609,8 @@ class CropperPage extends Component<CropperPageProps, State> {
       rotation,
       W_INT,
       H_INT,
-      W,
-      H,
+      this.W,
+      this.H,
       this.props.BORDER_WIDTH,
       Q,
     );
@@ -608,12 +618,12 @@ class CropperPage extends Component<CropperPageProps, State> {
     this.setCropBoxLimits({ TOP_LIMIT, LEFT_LIMIT, BOTTOM_LIMIT, RIGHT_LIMIT });
     const startPositionBeforeRotationX = this.state.leftPosition.x._value - this.state.LEFT_LIMIT + this.props.BORDER_WIDTH;
     const startPositionBeforeRotationY = this.state.topPosition.y._value - this.state.TOP_LIMIT + this.props.BORDER_WIDTH;
-    const imageWidthBeforeRotation = SCREEN_WIDTH - this.state.RIGHT_LIMIT - this.state.LEFT_LIMIT;
-    const imageHeightBeforeRotation = SCREEN_HEIGHT - this.state.BOTTOM_LIMIT - this.state.TOP_LIMIT;
+    const imageWidthBeforeRotation = this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT - this.state.LEFT_LIMIT;
+    const imageHeightBeforeRotation = this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT - this.state.TOP_LIMIT;
     const rectangleWidthBeforeRotation = this.state.rightPosition.x._value - this.state.leftPosition.x._value - this.props.BORDER_WIDTH;
     const rectangleHeightBeforeRotation = this.state.bottomPosition.y._value - this.state.topPosition.y._value - this.props.BORDER_WIDTH;
-    const imageWidthAfterRotation = SCREEN_WIDTH - RIGHT_LIMIT - LEFT_LIMIT;
-    const imageHeightAfterRotation = SCREEN_HEIGHT - BOTTOM_LIMIT - TOP_LIMIT;
+    const imageWidthAfterRotation = this.props.COMPONENT_WIDTH - RIGHT_LIMIT - LEFT_LIMIT;
+    const imageHeightAfterRotation = this.props.COMPONENT_HEIGHT - BOTTOM_LIMIT - TOP_LIMIT;
     const rectangleWidthAfterRotation = (imageWidthAfterRotation * rectangleHeightBeforeRotation) / imageHeightBeforeRotation;
     const rectangleHeightAfterRotation = (imageHeightAfterRotation * rectangleWidthBeforeRotation) / imageWidthBeforeRotation;
     const startPositionAfterRotationX = (startPositionBeforeRotationY * imageWidthAfterRotation) / imageHeightBeforeRotation;
@@ -653,8 +663,8 @@ class CropperPage extends Component<CropperPageProps, State> {
     }
 
     //this.setState({ isSaving: true });
-    const IMAGE_W = SCREEN_WIDTH - this.state.RIGHT_LIMIT - this.state.LEFT_LIMIT;
-    const IMAGE_H = SCREEN_HEIGHT - this.state.BOTTOM_LIMIT - this.state.TOP_LIMIT;
+    const IMAGE_W = this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT - this.state.LEFT_LIMIT;
+    const IMAGE_H = this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT - this.state.TOP_LIMIT;
     let x = this.state.leftPosition.x._value - this.state.LEFT_LIMIT + this.props.BORDER_WIDTH;
     let y = this.state.topPosition.y._value - this.state.TOP_LIMIT + this.props.BORDER_WIDTH;
     let width = this.state.rightPosition.x._value - this.state.leftPosition.x._value - this.props.BORDER_WIDTH;
@@ -734,6 +744,10 @@ class CropperPage extends Component<CropperPageProps, State> {
         leftOuterRef={ref => (this.leftOuter = ref)}
         bottomOuterRef={ref => (this.bottomOuter = ref)}
         rightOuterRef={ref => (this.rightOuter = ref)}
+        COMPONENT_WIDTH={this.props.COMPONENT_WIDTH}
+        COMPONENT_HEIGHT={this.props.COMPONENT_HEIGHT}
+        W={this.W}
+        H={this.H}
       />
     );
   }

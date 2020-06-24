@@ -37,6 +37,8 @@ Step 2 is not needed for react-native >= 0.60 because of autolinking. Instead ru
 | footerComponent | `component` | Custom component for footer. Default is `    <DefaultFooter doneText='DONE' rotateText='ROTATE' cancelText='CANCEL' />`|
 | NOT_SELECTED_AREA_OPACITY | `number` | The opacity of the area which is not selected by the cropper. Should be a value between `0` and `1`. Default is `0.5`|
 | BORDER_WIDTH | `number` | The border width [(see image)](https://i.imgur.com/CMSS953.png). Default is `50`|
+| COMPONENT_WIDTH | `number` | The width of the entire component. Default is `Dimensions.get('window').width`, not recommended to change.|
+| COMPONENT_HEIGHT | `number` | The height of the entire component. Default is `Dimensions.get('window').height`, you should change it to fix [hidden footer issue](https://github.com/ggunti/react-native-amazing-cropper/issues/30).|
 
 
 #### Usage example 1 (using the default footer)
