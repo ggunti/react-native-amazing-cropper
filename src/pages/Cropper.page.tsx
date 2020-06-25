@@ -396,6 +396,13 @@ class CropperPage extends Component<CropperPageProps, State> {
         this.state.rightPosition.flattenOffset();
       },
       onPanResponderGrant: () => {
+        if (
+            this.state.topPosition.y._value == 0 &&
+            this.state.rightPosition.x._value == 0 &&
+            this.state.bottomPosition.y._value == 0 &&
+            this.state.leftPosition.x._value == 0
+        ) return;
+
         this.state.topPosition.setOffset({
           x: this.state.topPosition.x._value,
           y: this.state.topPosition.y._value,
@@ -487,6 +494,13 @@ class CropperPage extends Component<CropperPageProps, State> {
         }
       },
       onPanResponderGrant: () => {
+        if (
+            this.state.topPosition.y._value == 0 &&
+            this.state.rightPosition.x._value == 0 &&
+            this.state.bottomPosition.y._value == 0 &&
+            this.state.leftPosition.x._value == 0
+        ) return;
+
         this.state.topPosition.setOffset({
           x: this.state.topPosition.x._value,
           y: this.state.topPosition.y._value,
@@ -529,6 +543,13 @@ class CropperPage extends Component<CropperPageProps, State> {
         this.state.rightPosition.flattenOffset();
       },
       onPanResponderGrant: () => {
+        if (
+            this.state.topPosition.y._value == 0 &&
+            this.state.rightPosition.x._value == 0 &&
+            this.state.bottomPosition.y._value == 0 &&
+            this.state.leftPosition.x._value == 0
+        ) return;
+
         this.state.topPosition.setOffset({ x: this.state.topPosition.x._value, y: this.state.topPosition.y._value });
         this.state.leftPosition.setOffset({ x: this.state.leftPosition.x._value, y: this.state.leftPosition.y._value });
         this.state.bottomPosition.setOffset({ x: this.state.bottomPosition.x._value, y: this.state.bottomPosition.y._value });
