@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Animated, Image, PanResponderInstance } from 'react-native';
-import getStyles from './Cropper.component.style';
+import getStyles from './Cropper.style';
 
 interface CropperProps {
   imageUri: string;

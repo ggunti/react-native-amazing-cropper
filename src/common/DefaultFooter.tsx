@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import styles from './DefaultFooter.component.style';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export type DefaultFooterProps = {
   onDone?: () => any;
@@ -25,4 +24,20 @@ const DefaultFooter: React.FC<DefaultFooterProps> = props => (
   </View>
 );
 
-export default DefaultFooter;
+export { DefaultFooter };
+
+const styles = StyleSheet.create({
+  buttonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: '100%',
+  },
+  text: {
+    color: 'white',
+    fontSize: 16,
+  },
+  touchable: {
+    padding: 10,
+  },
+});

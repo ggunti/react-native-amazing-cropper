@@ -3,8 +3,8 @@ import { Animated, PanResponder, PanResponderInstance, PanResponderGestureState,
 // @ts-ignore; 'react-native-image-rotate' does not have typescript support
 import RNImageRotate from 'react-native-image-rotate';
 import ImageEditor from '@react-native-community/image-editor';
-import { Q } from '../components/Cropper/Cropper.constants';
-import Cropper from '../components/Cropper/Cropper.component';
+import { Q } from '../constants';
+import Cropper from './Cropper';
 import { getCropperLimits } from '../utils';
 
 type CropperPageProps = {

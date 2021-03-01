@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Q } from './Cropper.constants';
+import { Q } from '../constants';
 
 export default function getStyles(COMPONENT_WIDTH: number, COMPONENT_HEIGHT: number, W: number) {
   return StyleSheet.create({

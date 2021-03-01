@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Cropper from './pages/Cropper.page';
-import DefaultFooter from './components/Footer/DefaultFooter.component';
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from './components/Cropper/Cropper.constants';
+import CropperPage from './Cropper/Cropper.page';
+import { DefaultFooter } from './common';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from './constants';
 
 export type AmazingCropperProps = {
   footerComponent?: JSX.Element;
@@ -41,12 +41,12 @@ const defaultProps = {
   COMPONENT_HEIGHT: SCREEN_HEIGHT,
 };
 
-class App extends Component<AmazingCropperProps> {
+class Main extends Component<AmazingCropperProps> {
   static defaultProps = defaultProps;
 
   render() {
     return (
-      <Cropper
+      <CropperPage
         footerComponent={this.props.footerComponent}
         onDone={this.props.onDone}
         onError={this.props.onError}
@@ -68,4 +68,4 @@ class App extends Component<AmazingCropperProps> {
   }
 }
 
-export default App;
+export default Main;

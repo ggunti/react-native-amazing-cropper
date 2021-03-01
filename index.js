@@ -1,5 +1,5 @@
-import App from './src/App';
-import DefaultFooter from './src/components/Footer/DefaultFooter.component';
+import Main from './src/Main';
+import { DefaultFooter } from './src/common';
 
-export default App;
+export default Main;
 export { DefaultFooter };
