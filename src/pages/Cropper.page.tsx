@@ -445,8 +445,8 @@ class CropperPage extends Component<CropperPageProps, State> {
         if (this.state.leftPosition.x._value < this.state.LEFT_LIMIT - this.props.BORDER_WIDTH) {
           isOutside = true;
           Animated.parallel([
-            Animated.spring(this.state.leftPosition.x, { toValue: this.state.LEFT_LIMIT - this.props.BORDER_WIDTH }),
-            Animated.spring(this.state.rightPosition.x, { toValue: this.state.LEFT_LIMIT + width }),
+            Animated.spring(this.state.leftPosition.x, { toValue: this.state.LEFT_LIMIT - this.props.BORDER_WIDTH, useNativeDriver: false }),
+            Animated.spring(this.state.rightPosition.x, { toValue: this.state.LEFT_LIMIT + width, useNativeDriver: false }),
           ]).start(() => {
             this.isRectangleMoving = false;
           });
@@ -454,8 +454,8 @@ class CropperPage extends Component<CropperPageProps, State> {
         if (this.state.topPosition.y._value < this.state.TOP_LIMIT - this.props.BORDER_WIDTH) {
           isOutside = true;
           Animated.parallel([
-            Animated.spring(this.state.topPosition.y, { toValue: this.state.TOP_LIMIT - this.props.BORDER_WIDTH }),
-            Animated.spring(this.state.bottomPosition.y, { toValue: this.state.TOP_LIMIT + height }),
+            Animated.spring(this.state.topPosition.y, { toValue: this.state.TOP_LIMIT - this.props.BORDER_WIDTH, useNativeDriver: false }),
+            Animated.spring(this.state.bottomPosition.y, { toValue: this.state.TOP_LIMIT + height, useNativeDriver: false }),
           ]).start(() => {
             this.isRectangleMoving = false;
           });
@@ -465,8 +465,9 @@ class CropperPage extends Component<CropperPageProps, State> {
           Animated.parallel([
             Animated.spring(this.state.leftPosition.x, {
               toValue: this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT - width - this.props.BORDER_WIDTH,
+              useNativeDriver: false,
             }),
-            Animated.spring(this.state.rightPosition.x, { toValue: this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT }),
+            Animated.spring(this.state.rightPosition.x, { toValue: this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT, useNativeDriver: false }),
           ]).start(() => {
             this.isRectangleMoving = false;
           });
@@ -476,8 +477,9 @@ class CropperPage extends Component<CropperPageProps, State> {
           Animated.parallel([
             Animated.spring(this.state.topPosition.y, {
               toValue: this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT - height - this.props.BORDER_WIDTH,
+              useNativeDriver: false,
             }),
-            Animated.spring(this.state.bottomPosition.y, { toValue: this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT }),
+            Animated.spring(this.state.bottomPosition.y, { toValue: this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT, useNativeDriver: false }),
           ]).start(() => {
             this.isRectangleMoving = false;
           });
