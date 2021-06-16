@@ -15,6 +15,7 @@ type CropperPageProps = {
   imageUri: string;
   imageWidth: number;
   imageHeight: number;
+  fixRatio: number;
   TOP_VALUE: number;
   LEFT_VALUE: number;
   BOTTOM_VALUE: number;
@@ -517,6 +518,14 @@ class CropperPage extends Component<CropperPageProps, State> {
     return PanResponder.create({
       onStartShouldSetPanResponder: () => !this.isRectangleMoving,
       onPanResponderMove: (_event, gesture) => {
+        if (this.props.fixRatio) {
+          if (this.isAllowedToMove(pos1, gesture)) {
+            if (this.isAllowedToMove(pos2, gesture)) {
+              this.state[pos1].setValue({x: gesture.dx, y: gesture.dx})
+              this.state[pos2].setValue({x: gesture.dx, y: gesture.dx})
+            }
+          }
+        }
         if (this.isAllowedToMove(pos1, gesture)) {
           this.state[pos1].setValue({ x: gesture.dx, y: gesture.dy });
         }
@@ -564,6 +573,7 @@ class CropperPage extends Component<CropperPageProps, State> {
   };
 
   setCropBoxValues = ({
+    
     TOP_VALUE,
     LEFT_VALUE,
     BOTTOM_VALUE,
@@ -574,6 +584,16 @@ class CropperPage extends Component<CropperPageProps, State> {
     BOTTOM_VALUE: number;
     RIGHT_VALUE: number;
   }) => {
+    if (this.props.fixRatio) {
+      var h = BOTTOM_VALUE - TOP_VALUE
+      RIGHT_VALUE = LEFT_VALUE + (h * this.props.fixRatio)
+      this.setState({
+        TOP_VALUE,
+        LEFT_VALUE,
+        BOTTOM_VALUE,
+        RIGHT_VALUE
+      })
+    }
     this.setState({
       TOP_VALUE,
       LEFT_VALUE,
