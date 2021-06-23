@@ -3,7 +3,6 @@
   "version": "0.1.6",
   "description": "Custom react native cropper with rotation",
   "main": "index.js",
-
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",

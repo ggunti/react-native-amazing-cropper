@@ -99,11 +99,21 @@ class CropperPage extends Component<CropperPageProps, State> {
       BORDER_WIDTH,
       Q,
     );
-
-    const TOP_VALUE = props.TOP_VALUE !== 0 ? props.TOP_VALUE : TOP_LIMIT;
-    const LEFT_VALUE = props.LEFT_VALUE !== 0 ? props.LEFT_VALUE : LEFT_LIMIT;
-    const BOTTOM_VALUE = props.BOTTOM_VALUE !== 0 ? props.BOTTOM_VALUE : BOTTOM_LIMIT;
-    const RIGHT_VALUE = props.RIGHT_VALUE !== 0 ? props.RIGHT_VALUE : RIGHT_LIMIT;
+    var TOP_VALUE = props.TOP_VALUE !== 0 ? props.TOP_VALUE : TOP_LIMIT;
+    var LEFT_VALUE = props.LEFT_VALUE !== 0 ? props.LEFT_VALUE : LEFT_LIMIT;
+    var BOTTOM_VALUE = props.BOTTOM_VALUE !== 0 ? props.BOTTOM_VALUE : BOTTOM_LIMIT;
+    var RIGHT_VALUE = props.RIGHT_VALUE !== 0 ? props.RIGHT_VALUE : RIGHT_LIMIT;
+    
+    if (props.fixRatio) {
+      if (props.imageWidth > props.imageHeight) {
+        LEFT_VALUE = LEFT_LIMIT + 50
+        RIGHT_VALUE = RIGHT_LIMIT + 50
+      } else {
+        TOP_VALUE = TOP_LIMIT + 50
+        BOTTOM_VALUE = BOTTOM_LIMIT + 50
+      }
+      
+    }
 
     const topOuterPosition = new Animated.ValueXY({ x: LEFT_VALUE - BORDER_WIDTH, y: TOP_VALUE - BORDER_WIDTH }) as ExtendedAnimatedValueXY;
     const topOuterPanResponder = PanResponder.create({ onStartShouldSetPanResponder: () => false });
@@ -383,41 +393,41 @@ class CropperPage extends Component<CropperPageProps, State> {
 
   initSidePanResponder = (position: Position) => {
     return PanResponder.create({
-      onStartShouldSetPanResponder: () => !this.isRectangleMoving,
+      // onStartShouldSetPanResponder: () => !this.isRectangleMoving,
       onPanResponderMove: (_event, gesture) => {
-        if (this.isAllowedToMove(position, gesture)) {
-          this.state[position].setValue({ x: gesture.dx, y: gesture.dy });
-        }
+        // if (this.isAllowedToMove(position, gesture)) {
+          // this.state[position].setValue({ x: gesture.dx, y: gesture.dy });
+        // }
       },
       onPanResponderRelease: () => {
         // make to not reset position
-        this.state.topPosition.flattenOffset();
-        this.state.leftPosition.flattenOffset();
-        this.state.bottomPosition.flattenOffset();
-        this.state.rightPosition.flattenOffset();
+        // this.state.topPosition.flattenOffset();
+        // this.state.leftPosition.flattenOffset();
+        // this.state.bottomPosition.flattenOffset();
+        // this.state.rightPosition.flattenOffset();
       },
       onPanResponderGrant: () => {
-        this.state.topPosition.setOffset({
-          x: this.state.topPosition.x._value,
-          y: this.state.topPosition.y._value,
-        });
-        this.state.leftPosition.setOffset({
-          x: this.state.leftPosition.x._value,
-          y: this.state.leftPosition.y._value,
-        });
-        this.state.bottomPosition.setOffset({
-          x: this.state.bottomPosition.x._value,
-          y: this.state.bottomPosition.y._value,
-        });
-        this.state.rightPosition.setOffset({
-          x: this.state.rightPosition.x._value,
-          y: this.state.rightPosition.y._value,
-        });
+        // this.state.topPosition.setOffset({
+        //   x: this.state.topPosition.x._value,
+        //   y: this.state.topPosition.y._value,
+        // });
+        // this.state.leftPosition.setOffset({
+        //   x: this.state.leftPosition.x._value,
+        //   y: this.state.leftPosition.y._value,
+        // });
+        // this.state.bottomPosition.setOffset({
+        //   x: this.state.bottomPosition.x._value,
+        //   y: this.state.bottomPosition.y._value,
+        // });
+        // this.state.rightPosition.setOffset({
+        //   x: this.state.rightPosition.x._value,
+        //   y: this.state.rightPosition.y._value,
+        // });
 
-        this.state.topPosition.setValue({ x: 0, y: 0 });
-        this.state.leftPosition.setValue({ x: 0, y: 0 });
-        this.state.bottomPosition.setValue({ x: 0, y: 0 });
-        this.state.rightPosition.setValue({ x: 0, y: 0 });
+        // this.state.topPosition.setValue({ x: 0, y: 0 });
+        // this.state.leftPosition.setValue({ x: 0, y: 0 });
+        // this.state.bottomPosition.setValue({ x: 0, y: 0 });
+        // this.state.rightPosition.setValue({ x: 0, y: 0 });
       },
     });
   };
@@ -515,8 +525,11 @@ class CropperPage extends Component<CropperPageProps, State> {
   };
 
   initCornerPanResponder = (pos1: Position, pos2: Position) => {
+    // console.log(pos1)
+    // console.log(pos2)
     return PanResponder.create({
       onStartShouldSetPanResponder: () => !this.isRectangleMoving,
+      
       onPanResponderMove: (_event, gesture) => {
         if (this.props.fixRatio) {
           if (this.isAllowedToMove(pos1, gesture)) {
@@ -527,11 +540,35 @@ class CropperPage extends Component<CropperPageProps, State> {
           }
         }
         if (this.isAllowedToMove(pos1, gesture)) {
-          this.state[pos1].setValue({ x: gesture.dx, y: gesture.dy });
+          if (this.isAllowedToMove(pos2, gesture)) {
+            if (pos1 == "topPosition") {
+              if (pos2 == "leftPosition") {
+                this.state[pos1].setValue({ x: gesture.dx, y: gesture.dx });
+                this.state[pos2].setValue({ x: gesture.dx, y: gesture.dx });
+              } else {
+                this.state[pos1].setValue({ x: gesture.dx, y: -gesture.dx });
+                this.state[pos2].setValue({ x: gesture.dx, y: -gesture.dx });
+              }
+            } else {
+              if (pos2 == "leftPosition") {
+                this.state[pos1].setValue({ x: gesture.dx, y: -gesture.dx });
+                this.state[pos2].setValue({ x: gesture.dx, y: -gesture.dx });
+              } else {
+                this.state[pos1].setValue({ x: gesture.dx, y: gesture.dx });
+                this.state[pos2].setValue({ x: gesture.dx, y: gesture.dx });
+              }
+            }
+          }
         }
-        if (this.isAllowedToMove(pos2, gesture)) {
-          this.state[pos2].setValue({ x: gesture.dx, y: gesture.dy });
-        }
+        
+        // if (this.isAllowedToMove(pos1, gesture)) {
+        //   console.log(_event._targetInst.memoisedProps)
+        //   console.log("inst")
+        //   this.state[pos1].setValue({ x: gesture.dx, y: -gesture.dx });
+        // }
+        // if (this.isAllowedToMove(pos2, gesture)) {
+        //   this.state[pos2].setValue({ x: gesture.dx, y: -gesture.dx });
+        // }
       },
       onPanResponderRelease: () => {
         this.state.topPosition.flattenOffset();
