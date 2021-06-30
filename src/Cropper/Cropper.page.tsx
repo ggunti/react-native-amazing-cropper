@@ -742,29 +742,37 @@ class CropperPage extends Component<CropperPageProps, State> {
     const cropData = {
       offset: { x, y },
       size: { width, height },
-      resizeMode: 'auto',
+      resizeMode: 'scale',
     } as ImageCropData;
-    if (Platform.OS === 'ios') {
-      this.state.rotation -= 90;
+    if (this.state.rotation == 0) {
+      ImageEditor.cropImage(this.props.imageUri, cropData)
+        .then(croppedUri => {
+          this.props.onDone(croppedUri);
+        })
+        .catch((err: Error) => {
+          this.props.onError(err);
+        });
+    } else {
+      RNImageRotate.rotateImage(
+        this.props.imageUri,
+        this.state.rotation,
+        (rotatedUri: string) => {
+          //
+          console.log(this.state.rotation)
+          ImageEditor.cropImage(rotatedUri, cropData)
+            .then(croppedUri => {
+              this.props.onDone(croppedUri);
+            })
+            .catch((err: Error) => {
+              this.props.onError(err);
+            });
+          //
+        },
+        (err: Error) => {
+          this.props.onError(err);
+        },
+      );
     }
-    RNImageRotate.rotateImage(
-      this.props.imageUri,
-      this.state.rotation,
-      (rotatedUri: string) => {
-        //
-        ImageEditor.cropImage(rotatedUri, cropData)
-          .then(croppedUri => {
-            this.props.onDone(croppedUri);
-          })
-          .catch((err: Error) => {
-            this.props.onError(err);
-          });
-        //
-      },
-      (err: Error) => {
-        this.props.onError(err);
-      },
-    );
   };
 
   render() {
