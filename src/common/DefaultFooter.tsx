@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 
 export type DefaultFooterProps = {
   onDone?: () => any;
@@ -15,15 +15,12 @@ const DefaultFooter: React.FC<DefaultFooterProps> = props => (
     <TouchableOpacity onPress={props.onCancel} style={styles.touchable}>
       <Text style={styles.text}>{props.cancelText}</Text>
     </TouchableOpacity>
-    <TouchableOpacity onPress={props.onRotate} style={styles.touchable}>
-      <Text style={styles.text}>{props.rotateText}</Text>
-    </TouchableOpacity>
+    
     <TouchableOpacity onPress={props.onDone} style={styles.touchable}>
       <Text style={styles.text}>{props.doneText}</Text>
     </TouchableOpacity>
   </View>
 );
-
 export { DefaultFooter };
 
 const styles = StyleSheet.create({
