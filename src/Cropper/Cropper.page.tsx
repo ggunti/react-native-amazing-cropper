@@ -3,7 +3,7 @@ import { Animated, PanResponder, PanResponderInstance, PanResponderGestureState,
 // @ts-ignore; 'react-native-image-rotate' does not have typescript support
 import RNImageRotate from 'react-native-image-rotate';
 import ImageEditor from '@react-native-community/image-editor';
-import { Q } from '../constants';
+import { Q, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants';
 import Cropper from './Cropper';
 import { getCropperLimits } from '../utils';
 
@@ -105,12 +105,35 @@ class CropperPage extends Component<CropperPageProps, State> {
     var RIGHT_VALUE = props.RIGHT_VALUE !== 0 ? props.RIGHT_VALUE : RIGHT_LIMIT;
     
     if (props.fixRatio) {
+      console.log(LEFT_LIMIT)
+      console.log(RIGHT_LIMIT)
+      console.log(TOP_LIMIT)
+      console.log(BOTTOM_LIMIT)
+
       if (props.imageWidth > props.imageHeight) {
-        LEFT_VALUE = LEFT_LIMIT + 50
-        RIGHT_VALUE = RIGHT_LIMIT + 50
+        if (props.imageWidth / props.imageHeight > props.fixRatio) {
+          LEFT_VALUE = LEFT_LIMIT + (50 / props.fixRatio)
+          RIGHT_VALUE = RIGHT_LIMIT + (50 / props.fixRatio)
+          TOP_VALUE = TOP_LIMIT
+          BOTTOM_VALUE = BOTTOM_LIMIT
+        } else {
+          LEFT_VALUE = LEFT_LIMIT
+          RIGHT_VALUE = RIGHT_LIMIT
+          TOP_VALUE = TOP_LIMIT + (50 / props.fixRatio)
+          BOTTOM_VALUE = BOTTOM_LIMIT + (50 / props.fixRatio)
+        }
       } else {
-        TOP_VALUE = TOP_LIMIT + 50
-        BOTTOM_VALUE = BOTTOM_LIMIT + 50
+        if (props.imageWidth / props.imageHeight > props.fixRatio) {
+          LEFT_VALUE = LEFT_LIMIT + (50 * props.fixRatio)
+          RIGHT_VALUE = RIGHT_LIMIT + (50 * props.fixRatio)
+          TOP_VALUE = TOP_LIMIT
+          BOTTOM_VALUE = BOTTOM_LIMIT
+        } else {
+          LEFT_VALUE = LEFT_LIMIT
+          RIGHT_VALUE = RIGHT_LIMIT
+          TOP_VALUE = TOP_LIMIT + (50 * props.fixRatio)
+          BOTTOM_VALUE = BOTTOM_LIMIT + (50 * props.fixRatio)
+        }
       }
       
     }
@@ -385,52 +408,91 @@ class CropperPage extends Component<CropperPageProps, State> {
     }
     if (position === 'bottomPosition') {
       return this.isAllowedToMoveBottomSide(gesture);
-    }
+    } 
     if (position === 'rightPosition') {
       return this.isAllowedToMoveRightSide(gesture);
     }
   };
 
-  initSidePanResponder = (position: Position) => {
-    return PanResponder.create({
-      // onStartShouldSetPanResponder: () => !this.isRectangleMoving,
-      onPanResponderMove: (_event, gesture) => {
-        // if (this.isAllowedToMove(position, gesture)) {
-          // this.state[position].setValue({ x: gesture.dx, y: gesture.dy });
-        // }
-      },
-      onPanResponderRelease: () => {
-        // make to not reset position
-        // this.state.topPosition.flattenOffset();
-        // this.state.leftPosition.flattenOffset();
-        // this.state.bottomPosition.flattenOffset();
-        // this.state.rightPosition.flattenOffset();
-      },
-      onPanResponderGrant: () => {
-        // this.state.topPosition.setOffset({
-        //   x: this.state.topPosition.x._value,
-        //   y: this.state.topPosition.y._value,
-        // });
-        // this.state.leftPosition.setOffset({
-        //   x: this.state.leftPosition.x._value,
-        //   y: this.state.leftPosition.y._value,
-        // });
-        // this.state.bottomPosition.setOffset({
-        //   x: this.state.bottomPosition.x._value,
-        //   y: this.state.bottomPosition.y._value,
-        // });
-        // this.state.rightPosition.setOffset({
-        //   x: this.state.rightPosition.x._value,
-        //   y: this.state.rightPosition.y._value,
-        // });
+  allAllowedToMove = (gesture) => {
+    return this.isAllowedToMove('topPosition', gesture)   && 
+           this.isAllowedToMove('leftPosition', gesture)  && 
+           this.isAllowedToMove('rightPosition', gesture) && 
+           this.isAllowedToMove('bottomPosition', gesture)
+  }
 
-        // this.state.topPosition.setValue({ x: 0, y: 0 });
-        // this.state.leftPosition.setValue({ x: 0, y: 0 });
-        // this.state.bottomPosition.setValue({ x: 0, y: 0 });
-        // this.state.rightPosition.setValue({ x: 0, y: 0 });
-      },
-    });
-  };
+  initSidePanResponder = (position: Position) => {
+    if (this.props.fixRatio) {
+      switch (position) {
+        case 'leftPosition': return this.initCornerPanResponder('topPosition', 'leftPosition')
+        case 'topPosition': return this.initCornerPanResponder('topPosition', 'leftPosition', true)
+        case 'bottomPosition': return this.initCornerPanResponder('bottomPosition', 'leftPosition', true)
+        case 'rightPosition': return this.initCornerPanResponder('bottomPosition', 'rightPosition')
+      }
+    } else {
+      return PanResponder.create({
+        onStartShouldSetPanResponder: () => !this.isRectangleMoving,
+        onPanResponderMove: (_event, gesture) => {
+          // if (this.props.fixRatio) {
+          //   if (this.isAllowedToMove(position, gesture)) {
+          //     switch (position) {
+          //       case 'leftPosition': {
+          //         this.state[position].setValue({ x: gesture.dx, y: gesture.dx });
+          //         this.state.topPosition.setValue({x: gesture.dx, y: gesture.dx});
+          //       }
+          //       case 'topPosition': {
+          //         this.state[position].setValue({ x: gesture.dy, y: gesture.dy });
+          //         this.state.leftPosition.setValue({x: gesture.dy, y: gesture.dy});  
+          //       }
+          //       case 'bottomPosition': {
+          //         this.state[position].setValue({ x: gesture.dy, y: gesture.dy });
+          //         this.state.rightPosition.setValue({x: gesture.dy, y: gesture.dy});
+          //       }
+          //       case 'rightPosition': {
+          //         this.state[position].setValue({ x: gesture.dx, y: gesture.dx });
+          //         this.state.bottomPosition.setValue({x: gesture.dx, y: gesture.dx});
+          //       }
+          //     }
+          //   }
+          // } else {
+          if (this.isAllowedToMove(position, gesture)) {
+            this.state[position].setValue({ x: gesture.dx, y: gesture.dy })
+          }
+            // }
+        },
+        
+        onPanResponderRelease: () => {
+          // make to not reset position
+          this.state.topPosition.flattenOffset();
+          this.state.leftPosition.flattenOffset();
+          this.state.bottomPosition.flattenOffset();
+          this.state.rightPosition.flattenOffset();
+        },
+        onPanResponderGrant: () => {
+          this.state.topPosition.setOffset({
+            x: this.state.topPosition.x._value,
+            y: this.state.topPosition.y._value,
+          });
+          this.state.leftPosition.setOffset({
+            x: this.state.leftPosition.x._value,
+            y: this.state.leftPosition.y._value,
+          });
+          this.state.bottomPosition.setOffset({
+            x: this.state.bottomPosition.x._value,
+            y: this.state.bottomPosition.y._value,
+          });
+          this.state.rightPosition.setOffset({
+            x: this.state.rightPosition.x._value,
+            y: this.state.rightPosition.y._value,
+          });
+          this.state.topPosition.setValue({ x: 0, y: 0 });
+          this.state.leftPosition.setValue({ x: 0, y: 0 });
+          this.state.bottomPosition.setValue({ x: 0, y: 0 });
+          this.state.rightPosition.setValue({ x: 0, y: 0 });
+        }
+      });
+    }
+  }
 
   initRectanglePanResponder = () => {
     return PanResponder.create({
@@ -524,51 +586,48 @@ class CropperPage extends Component<CropperPageProps, State> {
     });
   };
 
-  initCornerPanResponder = (pos1: Position, pos2: Position) => {
-    // console.log(pos1)
-    // console.log(pos2)
+  initCornerPanResponder = (pos1: Position, pos2: Position, useY?: boolean) => {
+    
     return PanResponder.create({
       onStartShouldSetPanResponder: () => !this.isRectangleMoving,
       
       onPanResponderMove: (_event, gesture) => {
+        const panSame = (pos1 == "topPosition" && pos2 == "leftPosition") || (pos1 == "bottomPosition" && pos2 == "rightPosition")
+        var change = 0
+        if (this.props.imageWidth > this.props.imageHeight || useY) {
+          if (panSame) {
+            change = gesture.dy
+          } else {
+            change = -gesture.dy
+          }
+        } else {
+          change = gesture.dx
+        }
         if (this.props.fixRatio) {
+              if (panSame) {
+
+                if (this.isAllowedToMove(pos1, gesture)) {
+                  if (this.isAllowedToMove(pos2, gesture)) {
+                    this.state[pos1].setValue({ x: change, y: change });
+                    this.state[pos2].setValue({ x: change, y: change });
+                  }
+                }
+              } else {
+                if (this.isAllowedToMove(pos1, gesture)) {
+                  if (this.isAllowedToMove(pos2, gesture)) {
+                    this.state[pos1].setValue({ x: change, y: -change });
+                    this.state[pos2].setValue({ x: change, y: -change });
+                  }
+                }
+              }
+        } else {
           if (this.isAllowedToMove(pos1, gesture)) {
-            if (this.isAllowedToMove(pos2, gesture)) {
-              this.state[pos1].setValue({x: gesture.dx, y: gesture.dx})
-              this.state[pos2].setValue({x: gesture.dx, y: gesture.dx})
-            }
+            this.state[pos1].setValue({ x: gesture.dx, y: gesture.dy });
           }
-        }
-        if (this.isAllowedToMove(pos1, gesture)) {
           if (this.isAllowedToMove(pos2, gesture)) {
-            if (pos1 == "topPosition") {
-              if (pos2 == "leftPosition") {
-                this.state[pos1].setValue({ x: gesture.dx, y: gesture.dx });
-                this.state[pos2].setValue({ x: gesture.dx, y: gesture.dx });
-              } else {
-                this.state[pos1].setValue({ x: gesture.dx, y: -gesture.dx });
-                this.state[pos2].setValue({ x: gesture.dx, y: -gesture.dx });
-              }
-            } else {
-              if (pos2 == "leftPosition") {
-                this.state[pos1].setValue({ x: gesture.dx, y: -gesture.dx });
-                this.state[pos2].setValue({ x: gesture.dx, y: -gesture.dx });
-              } else {
-                this.state[pos1].setValue({ x: gesture.dx, y: gesture.dx });
-                this.state[pos2].setValue({ x: gesture.dx, y: gesture.dx });
-              }
-            }
+            this.state[pos2].setValue({ x: gesture.dx, y: gesture.dy });
           }
         }
-        
-        // if (this.isAllowedToMove(pos1, gesture)) {
-        //   console.log(_event._targetInst.memoisedProps)
-        //   console.log("inst")
-        //   this.state[pos1].setValue({ x: gesture.dx, y: -gesture.dx });
-        // }
-        // if (this.isAllowedToMove(pos2, gesture)) {
-        //   this.state[pos2].setValue({ x: gesture.dx, y: -gesture.dx });
-        // }
       },
       onPanResponderRelease: () => {
         this.state.topPosition.flattenOffset();
