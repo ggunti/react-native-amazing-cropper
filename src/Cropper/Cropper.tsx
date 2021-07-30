@@ -22,6 +22,7 @@ interface CropperProps {
   onDone: () => void;
   onRotate: () => void;
   onCancel: () => void;
+  isLoading: boolean;
   topOuterPanResponder: PanResponderInstance;
   leftOuterPanResponder: PanResponderInstance;
   bottomOuterPanResponder: PanResponderInstance;
@@ -58,6 +59,7 @@ const Cropper: React.FC<CropperProps> = props => {
           onDone: props.onDone,
           onRotate: props.onRotate,
           onCancel: props.onCancel,
+          isLoading: props.isLoading,
         })}
       </View>
       {/*

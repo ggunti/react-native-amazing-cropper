@@ -5,6 +5,7 @@ export type DefaultFooterProps = {
   onDone?: () => any;
   onRotate?: () => any;
   onCancel?: () => any;
+  isLoading?: boolean;
   doneText: string;
   rotateText: string;
   cancelText: string;
@@ -12,13 +13,13 @@ export type DefaultFooterProps = {
 
 const DefaultFooter: React.FC<DefaultFooterProps> = props => (
   <View style={styles.buttonsContainer}>
-    <TouchableOpacity onPress={props.onCancel} style={styles.touchable}>
+    <TouchableOpacity disabled={props.isLoading} onPress={props.onCancel} style={styles.touchable}>
       <Text style={styles.text}>{props.cancelText}</Text>
     </TouchableOpacity>
-    <TouchableOpacity onPress={props.onRotate} style={styles.touchable}>
+    <TouchableOpacity disabled={props.isLoading} onPress={props.onRotate} style={styles.touchable}>
       <Text style={styles.text}>{props.rotateText}</Text>
     </TouchableOpacity>
-    <TouchableOpacity onPress={props.onDone} style={styles.touchable}>
+    <TouchableOpacity disabled={props.isLoading} onPress={props.onDone} style={styles.touchable}>
       <Text style={styles.text}>{props.doneText}</Text>
     </TouchableOpacity>
   </View>

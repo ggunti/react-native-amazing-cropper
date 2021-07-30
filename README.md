@@ -27,7 +27,7 @@ Step 2 is not needed for react-native >= 0.60 because of autolinking. Instead ru
 -------------
 | Prop  | Type | Description |
 | :------------ |:---------------:| :---------------|
-| onDone | `function` | A function which accepts 1 argument `croppedImageUri`. Called when user press the 'DONE' button |
+| onDone | `function` | A function which accepts 1 argument `croppedImageUri`. Called after user press the 'DONE' button and cropped image uri is obtained |
 | onError | `function` | A function which accepts 1 argument `err` of type `Error`. Called when rotation or cropping fails |
 | onCancel | `function` | A function without arguments. Called when user press the 'CANCEL' button |
 | imageUri | `string` | The uri of the image you want to crop or rotate |
@@ -121,7 +121,7 @@ class AmazingCropperPage extends Component {
 -------------
 
 Write your custom footer component.</br>
-Don't forget to call the **props.onDone**, **props.onRotate** and **props.onCancel** methods inside it (the Cropper will pass them automatically to your footer component). Example of custom footer component:
+Don't forget to call the **props.onDone**, **props.onRotate** and **props.onCancel** methods inside it (the Cropper will pass them automatically to your footer component). Also you can use the **props.isLoading** property for example to show a loading indicator immediately after the 'DONE' button is pressed (and until **props.onDone** is resolved with the cropped image uri). Example of custom footer component:
 
 ```javascript
 import React from 'react';
@@ -137,7 +137,8 @@ const CustomCropperFooter = (props) => (
     <TouchableOpacity onPress={props.onRotate} style={styles.touchable}>
       <MaterialCommunityIcon name='format-rotate-90' style={styles.rotateIcon} />
     </TouchableOpacity>
-    <TouchableOpacity onPress={props.onDone} style={styles.touchable}>
+    {/* do not allow user to press 'DONE' button quickly multiple times, so disable it while props.isLoading is true */}
+    <TouchableOpacity onPress={props.onDone} disabled={props.isLoading} style={styles.touchable}>
       <Text style={styles.text}>DONE</Text>
     </TouchableOpacity>
   </View>
@@ -148,7 +149,8 @@ export default CustomCropperFooter;
 CustomCropperFooter.propTypes = {
   onDone: PropTypes.func,
   onRotate: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  isLoading: PropTypes.bool
 }
 
 const styles = StyleSheet.create({
@@ -213,7 +215,7 @@ class AmazingCropperPage extends Component {
     return (
       <AmazingCropper
         // Use your custom footer component
-        // Do NOT pass onDone, onRotate and onCancel to the footer component, the Cropper will do it for you
+        // Do NOT pass onDone, onRotate, onCancel and isLoading to the footer component, the Cropper will do it for you
         footerComponent={<CustomCropperFooter />}
         onDone={this.onDone}
         onError={this.onError}

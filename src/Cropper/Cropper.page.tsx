@@ -79,6 +79,7 @@ interface State {
   BOTTOM_VALUE: number;
   RIGHT_VALUE: number;
   rotation: number;
+  isLoading: boolean;
 }
 
 class CropperPage extends Component<CropperPageProps, State> {
@@ -181,6 +182,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       BOTTOM_VALUE,
       RIGHT_VALUE,
       rotation: props.initialRotation,
+      isLoading: false,
     };
   }
 
@@ -664,47 +666,43 @@ class CropperPage extends Component<CropperPageProps, State> {
       return null;
     }
 
-    //this.setState({ isSaving: true });
-    const IMAGE_W = this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT - this.state.LEFT_LIMIT;
-    const IMAGE_H = this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT - this.state.TOP_LIMIT;
-    let x = this.state.leftPosition.x._value - this.state.LEFT_LIMIT + this.props.BORDER_WIDTH;
-    let y = this.state.topPosition.y._value - this.state.TOP_LIMIT + this.props.BORDER_WIDTH;
-    let width = this.state.rightPosition.x._value - this.state.leftPosition.x._value - this.props.BORDER_WIDTH;
-    let height = this.state.bottomPosition.y._value - this.state.topPosition.y._value - this.props.BORDER_WIDTH;
-    let imageWidth = this.props.imageWidth > 0 ? this.props.imageWidth : 1280; // 340
-    let imageHeight = this.props.imageHeight > 0 ? this.props.imageHeight : 747; // 500
-    if (this.state.rotation % 180 === 90) {
-      const pivot = imageWidth;
-      imageWidth = imageHeight;
-      imageHeight = pivot;
-    }
-    width = (width * imageWidth) / IMAGE_W;
-    height = (height * imageHeight) / IMAGE_H;
-    x = (x * imageWidth) / IMAGE_W;
-    y = (y * imageHeight) / IMAGE_H;
-    const cropData = {
-      offset: { x, y },
-      size: { width, height },
-      resizeMode: 'stretch',
-    } as ImageCropData;
-    RNImageRotate.rotateImage(
-      this.props.imageUri,
-      this.state.rotation,
-      (rotatedUri: string) => {
-        //
-        ImageEditor.cropImage(rotatedUri, cropData)
-          .then(croppedUri => {
-            this.props.onDone(croppedUri);
-          })
-          .catch((err: Error) => {
-            this.props.onError(err);
-          });
-        //
-      },
-      (err: Error) => {
-        this.props.onError(err);
-      },
-    );
+    this.setState({ isLoading: true }, () => {
+      const IMAGE_W = this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT - this.state.LEFT_LIMIT;
+      const IMAGE_H = this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT - this.state.TOP_LIMIT;
+      let x = this.state.leftPosition.x._value - this.state.LEFT_LIMIT + this.props.BORDER_WIDTH;
+      let y = this.state.topPosition.y._value - this.state.TOP_LIMIT + this.props.BORDER_WIDTH;
+      let width = this.state.rightPosition.x._value - this.state.leftPosition.x._value - this.props.BORDER_WIDTH;
+      let height = this.state.bottomPosition.y._value - this.state.topPosition.y._value - this.props.BORDER_WIDTH;
+      let imageWidth = this.props.imageWidth > 0 ? this.props.imageWidth : 1280; // 340
+      let imageHeight = this.props.imageHeight > 0 ? this.props.imageHeight : 747; // 500
+      if (this.state.rotation % 180 === 90) {
+        const pivot = imageWidth;
+        imageWidth = imageHeight;
+        imageHeight = pivot;
+      }
+      width = (width * imageWidth) / IMAGE_W;
+      height = (height * imageHeight) / IMAGE_H;
+      x = (x * imageWidth) / IMAGE_W;
+      y = (y * imageHeight) / IMAGE_H;
+      const cropData = {
+        offset: { x, y },
+        size: { width, height },
+        resizeMode: 'stretch',
+      } as ImageCropData;
+      RNImageRotate.rotateImage(
+        this.props.imageUri,
+        this.state.rotation,
+        (rotatedUri: string) =>
+          ImageEditor.cropImage(rotatedUri, cropData)
+            .then(croppedUri => this.props.onDone(croppedUri))
+            .catch((err: Error) => this.props.onError(err))
+            .finally(() => this.setState({ isLoading: false })),
+        (err: Error) => {
+          this.props.onError(err);
+          this.setState({ isLoading: false });
+        },
+      );
+    });
   };
 
   render() {
@@ -729,6 +727,7 @@ class CropperPage extends Component<CropperPageProps, State> {
         onDone={this.onDone}
         onRotate={this.onRotate}
         onCancel={this.onCancel}
+        isLoading={this.state.isLoading}
         topOuterPanResponder={this.state.topOuterPanResponder}
         leftOuterPanResponder={this.state.leftOuterPanResponder}
         bottomOuterPanResponder={this.state.bottomOuterPanResponder}
