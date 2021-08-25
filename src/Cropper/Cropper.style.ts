@@ -20,7 +20,7 @@ export default function getStyles(COMPONENT_WIDTH: number, COMPONENT_HEIGHT: num
     footerContainer: {
       position: 'absolute',
       top: COMPONENT_HEIGHT - Q,
-      height: Q,
+      height: Q - 60,
       width: W,
     },
     gridRow: {

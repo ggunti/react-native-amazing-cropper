@@ -11,6 +11,7 @@ export type AmazingCropperProps = {
   imageUri: string;
   imageWidth: number;
   imageHeight: number;
+  fixRatio?: number;
   TOP_VALUE?: number;
   LEFT_VALUE?: number;
   BOTTOM_VALUE?: number;
@@ -30,6 +31,7 @@ const defaultProps = {
   imageUri: '',
   imageWidth: 1280,
   imageHeight: 747,
+  fixRatio: null,
   TOP_VALUE: 0,
   LEFT_VALUE: 0,
   BOTTOM_VALUE: 0,
@@ -54,6 +56,7 @@ class Main extends Component<AmazingCropperProps> {
         imageUri={this.props.imageUri}
         imageWidth={this.props.imageWidth}
         imageHeight={this.props.imageHeight}
+        fixRatio={this.props.fixRatio}
         TOP_VALUE={this.props.TOP_VALUE}
         LEFT_VALUE={this.props.LEFT_VALUE}
         BOTTOM_VALUE={this.props.BOTTOM_VALUE}
