@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Animated, PanResponder, PanResponderInstance, PanResponderGestureState, ImageCropData } from 'react-native';
 // @ts-ignore; 'react-native-image-rotate' does not have typescript support
-import RNImageRotate from 'react-native-image-rotate';
+import RNImageRotate from '@wili/react-native-image-rotate';
 import ImageEditor from '@react-native-community/image-editor';
 import { Q } from '../constants';
 import Cropper from './Cropper';
