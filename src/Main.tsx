@@ -21,6 +21,7 @@ export type AmazingCropperProps = {
   COMPONENT_WIDTH?: number;
   COMPONENT_HEIGHT?: number;
 } & typeof defaultProps;
+/// new key change
 
 const defaultProps = {
   footerComponent: <DefaultFooter doneText='DONE' rotateText='ROTATE' cancelText='CANCEL' />,
