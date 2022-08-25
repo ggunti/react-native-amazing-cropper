@@ -3,6 +3,11 @@ import CropperPage from './Cropper/Cropper.page';
 import { DefaultFooter } from './common';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from './constants';
 
+export type StyleType = {
+  container: { backgroundColor: string };
+  grid: { border: { borderColor: string }; column: { borderWidth: number; borderColor: string } };
+};
+
 export type AmazingCropperProps = {
   footerComponent?: JSX.Element;
   onDone: (croppedImageUri: string) => void;
@@ -20,7 +25,7 @@ export type AmazingCropperProps = {
   BORDER_WIDTH?: number;
   COMPONENT_WIDTH?: number;
   COMPONENT_HEIGHT?: number;
-  style?: { container: { backgroundColor: string }; grid: { border: { borderColor: string }; column: { borderWidth: number; borderColor: string } } };
+  style?: StyleType;
 } & typeof defaultProps;
 /// new key change
 

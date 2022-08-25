@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Animated, Image, PanResponderInstance } from 'react-native';
+import { StyleType } from '../Main';
 import getStyles from './Cropper.style';
 
 interface CropperProps {
@@ -43,13 +44,14 @@ interface CropperProps {
   COMPONENT_HEIGHT: number;
   W: number;
   H: number;
-  style?: { container: { backgroundColor: string }; grid: { column: { borderWidth: number; borderColor: string } } };
+  style: StyleType;
 }
 
 const Cropper: React.FC<CropperProps> = (props) => {
   const styles = getStyles(props.COMPONENT_WIDTH, props.COMPONENT_HEIGHT, props.W);
-  const gridColumn = { ...styles.griColumn, ...props.style.grid.column };
+  const gridColumn = { ...styles.gridColumn, ...props.style.grid.column };
   const borderDesign = { ...styles.borderDesign, ...props.style.grid.border };
+
   return (
     <View style={[styles.container, props.style.container]}>
       <View style={styles.secondContainer}>

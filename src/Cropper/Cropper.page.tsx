@@ -6,6 +6,7 @@ import ImageEditor from '@react-native-community/image-editor';
 import { Q } from '../constants';
 import Cropper from './Cropper';
 import { getCropperLimits } from '../utils';
+import { StyleType } from '../Main';
 
 type CropperPageProps = {
   footerComponent: JSX.Element;
@@ -24,7 +25,7 @@ type CropperPageProps = {
   BORDER_WIDTH: number;
   COMPONENT_WIDTH: number;
   COMPONENT_HEIGHT: number;
-  style?: { container: { backgroundColor: string }; grid: { border: { borderColor: string }; column: { borderWidth: number; borderColor: string } } };
+  style: StyleType;
 };
 
 interface ExtendedAnimatedValue extends Animated.Value {
