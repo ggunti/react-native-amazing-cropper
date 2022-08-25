@@ -20,6 +20,7 @@ export type AmazingCropperProps = {
   BORDER_WIDTH?: number;
   COMPONENT_WIDTH?: number;
   COMPONENT_HEIGHT?: number;
+  style?: { container: { backgroundColor: string }; grid: { border: { borderColor: string }; column: { borderWidth: number; borderColor: string } } };
 } & typeof defaultProps;
 /// new key change
 
@@ -40,6 +41,10 @@ const defaultProps = {
   BORDER_WIDTH: 50,
   COMPONENT_WIDTH: SCREEN_WIDTH,
   COMPONENT_HEIGHT: SCREEN_HEIGHT,
+  style: {
+    container: { backgroundColor: '#000' },
+    grid: { border: { borderColor: '#FFF' }, column: { borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.5)' } },
+  },
 };
 
 class Main extends Component<AmazingCropperProps> {
@@ -64,6 +69,7 @@ class Main extends Component<AmazingCropperProps> {
         BORDER_WIDTH={this.props.BORDER_WIDTH}
         COMPONENT_WIDTH={this.props.COMPONENT_WIDTH}
         COMPONENT_HEIGHT={this.props.COMPONENT_HEIGHT}
+        style={this.props.style}
       />
     );
   }

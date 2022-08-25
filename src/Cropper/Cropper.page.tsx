@@ -24,6 +24,7 @@ type CropperPageProps = {
   BORDER_WIDTH: number;
   COMPONENT_WIDTH: number;
   COMPONENT_HEIGHT: number;
+  style?: { container: { backgroundColor: string }; grid: { border: { borderColor: string }; column: { borderWidth: number; borderColor: string } } };
 };
 
 interface ExtendedAnimatedValue extends Animated.Value {
@@ -693,7 +694,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       (rotatedUri: string) => {
         //
         ImageEditor.cropImage(rotatedUri, cropData)
-          .then(croppedUri => {
+          .then((croppedUri) => {
             this.props.onDone(croppedUri);
           })
           .catch((err: Error) => {
@@ -710,6 +711,7 @@ class CropperPage extends Component<CropperPageProps, State> {
   render() {
     return (
       <Cropper
+        style={this.props.style}
         imageUri={this.props.imageUri} // 'https://3.imimg.com/data3/SN/NO/MY-10244508/vertical-building-parking-500x500.jpg'
         footerComponent={this.props.footerComponent}
         getTopOuterStyle={this.getTopOuterStyle}
@@ -742,10 +744,10 @@ class CropperPage extends Component<CropperPageProps, State> {
         bottomRightPanResponder={this.state.bottomRightPanResponder}
         topRightPanResponder={this.state.topRightPanResponder}
         rectanglePanResponder={this.state.rectanglePanResponder}
-        topOuterRef={ref => (this.topOuter = ref)}
-        leftOuterRef={ref => (this.leftOuter = ref)}
-        bottomOuterRef={ref => (this.bottomOuter = ref)}
-        rightOuterRef={ref => (this.rightOuter = ref)}
+        topOuterRef={(ref) => (this.topOuter = ref)}
+        leftOuterRef={(ref) => (this.leftOuter = ref)}
+        bottomOuterRef={(ref) => (this.bottomOuter = ref)}
+        rightOuterRef={(ref) => (this.rightOuter = ref)}
         COMPONENT_WIDTH={this.props.COMPONENT_WIDTH}
         COMPONENT_HEIGHT={this.props.COMPONENT_HEIGHT}
         W={this.W}

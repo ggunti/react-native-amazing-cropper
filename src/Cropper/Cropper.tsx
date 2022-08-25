@@ -43,12 +43,15 @@ interface CropperProps {
   COMPONENT_HEIGHT: number;
   W: number;
   H: number;
+  style?: { container: { backgroundColor: string }; grid: { column: { borderWidth: number; borderColor: string } } };
 }
 
-const Cropper: React.FC<CropperProps> = props => {
+const Cropper: React.FC<CropperProps> = (props) => {
   const styles = getStyles(props.COMPONENT_WIDTH, props.COMPONENT_HEIGHT, props.W);
+  const gridColumn = { ...styles.griColumn, ...props.style.grid.column };
+  const borderDesign = { ...styles.borderDesign, ...props.style.grid.border };
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, props.style.container]}>
       <View style={styles.secondContainer}>
         <Image style={props.getImageStyle()} source={{ uri: props.imageUri }} />
       </View>
@@ -67,8 +70,14 @@ const Cropper: React.FC<CropperProps> = props => {
         // @ts-ignore */}
       <Animated.View ref={props.leftOuterRef} style={[styles.animation, props.getLeftOuterStyle()]} {...props.leftOuterPanResponder.panHandlers} />
       {/*
-        // @ts-ignore */ /* eslint-disable-line */ /* eslint-disable-next-line prettier/prettier */}
-      <Animated.View ref={props.bottomOuterRef} style={[styles.animation, props.getBottomOuterStyle()]} {...props.bottomOuterPanResponder.panHandlers} />
+        // @ts-ignore */
+      /* eslint-disable-line */
+      /* eslint-disable-next-line prettier/prettier */}
+      <Animated.View
+        ref={props.bottomOuterRef}
+        style={[styles.animation, props.getBottomOuterStyle()]}
+        {...props.bottomOuterPanResponder.panHandlers}
+      />
       {/*
         // @ts-ignore */}
       <Animated.View ref={props.rightOuterRef} style={[styles.animation, props.getRightOuterStyle()]} {...props.rightOuterPanResponder.panHandlers} />
@@ -80,45 +89,51 @@ const Cropper: React.FC<CropperProps> = props => {
 
       <Animated.View style={[styles.animation, styles.topLeftAnimation, props.getTopLeftStyle()]} {...props.topLeftPanResponder.panHandlers} />
       {/* eslint-disable-next-line prettier/prettier */}
-      <Animated.View style={[styles.animation, styles.bottomLeftAnimation, props.getBottomLeftStyle()]} {...props.bottomLeftPanResponder.panHandlers} />
+      <Animated.View
+        style={[styles.animation, styles.bottomLeftAnimation, props.getBottomLeftStyle()]}
+        {...props.bottomLeftPanResponder.panHandlers}
+      />
       {/* eslint-disable-next-line prettier/prettier */}
-      <Animated.View style={[styles.animation, styles.bottomRightAnimation, props.getBottomRightStyle()]} {...props.bottomRightPanResponder.panHandlers} />
+      <Animated.View
+        style={[styles.animation, styles.bottomRightAnimation, props.getBottomRightStyle()]}
+        {...props.bottomRightPanResponder.panHandlers}
+      />
       <Animated.View style={[styles.animation, styles.topRightAnimation, props.getTopRightStyle()]} {...props.topRightPanResponder.panHandlers} />
 
       <Animated.View style={[styles.animation, props.getRectangleStyle()]} {...props.rectanglePanResponder.panHandlers}>
         <View style={styles.gridRow}>
-          <View style={styles.gridColumn}>
-            <View style={[styles.borderDesign, { borderLeftWidth: 3, borderTopWidth: 3 }]} />
+          <View style={gridColumn}>
+            <View style={[borderDesign, { borderLeftWidth: 3, borderTopWidth: 3 }]} />
           </View>
-          <View style={styles.gridColumn}>
-            <View style={[styles.borderDesign, { borderTopWidth: 3, alignSelf: 'center' }]} />
+          <View style={gridColumn}>
+            <View style={[borderDesign, { borderTopWidth: 3, alignSelf: 'center' }]} />
           </View>
-          <View style={styles.gridColumn}>
-            <View style={[styles.borderDesign, { borderTopWidth: 3, borderRightWidth: 3, alignSelf: 'flex-end' }]} />
-          </View>
-        </View>
-
-        <View style={styles.gridRow}>
-          <View style={[styles.gridColumn, { flexDirection: 'row' }]}>
-            <View style={[styles.borderDesign, { borderLeftWidth: 3, alignSelf: 'center' }]} />
-          </View>
-          <View style={styles.gridColumn} />
-          <View style={[styles.gridColumn, { justifyContent: 'center' }]}>
-            <View style={[styles.borderDesign, { borderRightWidth: 3, alignSelf: 'flex-end' }]} />
+          <View style={gridColumn}>
+            <View style={[borderDesign, { borderTopWidth: 3, borderRightWidth: 3, alignSelf: 'flex-end' }]} />
           </View>
         </View>
 
         <View style={styles.gridRow}>
-          <View style={[styles.gridColumn, { justifyContent: 'flex-end' }]}>
-            <View style={[styles.borderDesign, { borderLeftWidth: 3, borderBottomWidth: 3 }]} />
+          <View style={[gridColumn, { flexDirection: 'row' }]}>
+            <View style={[borderDesign, { borderLeftWidth: 3, alignSelf: 'center' }]} />
           </View>
-          <View style={[styles.gridColumn, { justifyContent: 'flex-end' }]}>
-            <View style={[styles.borderDesign, { borderBottomWidth: 3, alignSelf: 'center' }]} />
+          <View style={gridColumn} />
+          <View style={[gridColumn, { justifyContent: 'center' }]}>
+            <View style={[borderDesign, { borderRightWidth: 3, alignSelf: 'flex-end' }]} />
           </View>
-          <View style={[styles.gridColumn, { justifyContent: 'flex-end' }]}>
+        </View>
+
+        <View style={styles.gridRow}>
+          <View style={[gridColumn, { justifyContent: 'flex-end' }]}>
+            <View style={[borderDesign, { borderLeftWidth: 3, borderBottomWidth: 3 }]} />
+          </View>
+          <View style={[gridColumn, { justifyContent: 'flex-end' }]}>
+            <View style={[borderDesign, { borderBottomWidth: 3, alignSelf: 'center' }]} />
+          </View>
+          <View style={[gridColumn, { justifyContent: 'flex-end' }]}>
             <View
               style={[
-                styles.borderDesign,
+                borderDesign,
                 {
                   borderRightWidth: 3,
                   borderBottomWidth: 3,
