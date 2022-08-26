@@ -16,6 +16,12 @@ export default function getStyles(COMPONENT_WIDTH: number, COMPONENT_HEIGHT: num
       width: COMPONENT_WIDTH,
       height: COMPONENT_HEIGHT,
     },
+    headerContainer: {
+      position: 'absolute',
+      top: 20,
+      left: 10,
+      right: 10,
+    },
     footerContainer: {
       position: 'absolute',
       top: COMPONENT_HEIGHT - Q,

@@ -9,6 +9,7 @@ export type StyleType = {
 };
 
 export type AmazingCropperProps = {
+  headerComponent?: JSX.Element;
   footerComponent?: JSX.Element;
   onDone: (croppedImageUri: string) => void;
   onError: (err: Error) => void;
@@ -31,6 +32,7 @@ export type AmazingCropperProps = {
 
 const defaultProps = {
   footerComponent: <DefaultFooter doneText='DONE' rotateText='ROTATE' cancelText='CANCEL' />,
+  headerComponent: <></>,
   onDone: (_croppedImageUri: string) => {},
   onError: (_err: Error) => {},
   onCancel: () => {},
@@ -58,6 +60,7 @@ class Main extends Component<AmazingCropperProps> {
   render() {
     return (
       <CropperPage
+        headerComponent={this.props.headerComponent}
         footerComponent={this.props.footerComponent}
         onDone={this.props.onDone}
         onError={this.props.onError}

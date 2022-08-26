@@ -10,6 +10,7 @@ import { StyleType } from '../Main';
 
 type CropperPageProps = {
   footerComponent: JSX.Element;
+  headerComponent: JSX.Element;
   onDone: (croppedImageUri: string) => void;
   onError: (err: Error) => void;
   onCancel: () => void;
@@ -715,6 +716,7 @@ class CropperPage extends Component<CropperPageProps, State> {
         style={this.props.style}
         imageUri={this.props.imageUri} // 'https://3.imimg.com/data3/SN/NO/MY-10244508/vertical-building-parking-500x500.jpg'
         footerComponent={this.props.footerComponent}
+        headerComponent={this.props.headerComponent}
         getTopOuterStyle={this.getTopOuterStyle}
         getLeftOuterStyle={this.getLeftOuterStyle}
         getBottomOuterStyle={this.getBottomOuterStyle}

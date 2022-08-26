@@ -5,6 +5,7 @@ import getStyles from './Cropper.style';
 
 interface CropperProps {
   imageUri: string;
+  headerComponent: JSX.Element;
   footerComponent: JSX.Element;
   getTopOuterStyle: () => object;
   getLeftOuterStyle: () => object;
@@ -54,6 +55,7 @@ const Cropper: React.FC<CropperProps> = (props) => {
 
   return (
     <View style={[styles.container, props.style.container]}>
+      <View style={styles.headerContainer}>{React.cloneElement(props.headerComponent)}</View>
       <View style={styles.secondContainer}>
         <Image style={props.getImageStyle()} source={{ uri: props.imageUri }} />
       </View>
