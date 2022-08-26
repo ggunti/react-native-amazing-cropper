@@ -23,6 +23,7 @@ export type AmazingCropperProps = {
   RIGHT_VALUE?: number;
   initialRotation?: number;
   NOT_SELECTED_AREA_OPACITY?: number;
+  NOT_SELECTED_AREA_BACKGROUND_COLOR?: string;
   BORDER_WIDTH?: number;
   COMPONENT_WIDTH?: number;
   COMPONENT_HEIGHT?: number;
@@ -74,6 +75,7 @@ class Main extends Component<AmazingCropperProps> {
         RIGHT_VALUE={this.props.RIGHT_VALUE}
         initialRotation={this.props.initialRotation}
         NOT_SELECTED_AREA_OPACITY={this.props.NOT_SELECTED_AREA_OPACITY}
+        NOT_SELECTED_AREA_BACKGROUND_COLOR={this.props.NOT_SELECTED_AREA_BACKGROUND_COLOR}
         BORDER_WIDTH={this.props.BORDER_WIDTH}
         COMPONENT_WIDTH={this.props.COMPONENT_WIDTH}
         COMPONENT_HEIGHT={this.props.COMPONENT_HEIGHT}

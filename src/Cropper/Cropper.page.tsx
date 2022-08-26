@@ -23,6 +23,7 @@ type CropperPageProps = {
   RIGHT_VALUE: number;
   initialRotation: number;
   NOT_SELECTED_AREA_OPACITY: number;
+  NOT_SELECTED_AREA_BACKGROUND_COLOR?: string;
   BORDER_WIDTH: number;
   COMPONENT_WIDTH: number;
   COMPONENT_HEIGHT: number;
@@ -195,6 +196,8 @@ class CropperPage extends Component<CropperPageProps, State> {
   W = this.props.COMPONENT_WIDTH;
   H = this.props.COMPONENT_HEIGHT - Q;
 
+  outerBackgroundColor = this.props.NOT_SELECTED_AREA_BACKGROUND_COLOR || `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`;
+
   onCancel = () => {
     this.props.onCancel();
   };
@@ -206,7 +209,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       left: this.state.LEFT_LIMIT,
       height: Animated.add(this.props.BORDER_WIDTH - this.state.TOP_LIMIT, this.state.topPosition.y),
       width: this.W,
-      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
+      backgroundColor: this.outerBackgroundColor,
     };
   };
 
@@ -217,7 +220,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       left: this.state.LEFT_LIMIT,
       height: Animated.add(-this.props.BORDER_WIDTH, Animated.add(this.state.bottomPosition.y, Animated.multiply(-1, this.state.topPosition.y))),
       width: Animated.add(this.props.BORDER_WIDTH - this.state.LEFT_LIMIT, this.state.leftPosition.x),
-      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
+      backgroundColor: this.outerBackgroundColor,
     };
   };
 
@@ -228,7 +231,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       left: this.state.LEFT_LIMIT,
       height: Animated.add(this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT, Animated.multiply(-1, this.state.bottomPosition.y)),
       width: this.W,
-      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
+      backgroundColor: this.outerBackgroundColor,
     };
   };
 
@@ -239,7 +242,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       left: this.state.rightPosition.x,
       height: Animated.add(-this.props.BORDER_WIDTH, Animated.add(this.state.bottomPosition.y, Animated.multiply(-1, this.state.topPosition.y))),
       right: this.state.RIGHT_LIMIT,
-      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
+      backgroundColor: this.outerBackgroundColor,
     };
   };
 
