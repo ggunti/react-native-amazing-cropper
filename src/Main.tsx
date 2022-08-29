@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CropperPage from './Cropper/Cropper.page';
 import { DefaultFooter } from './common';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from './constants';
+import { ImageResizeMode } from 'react-native';
 
 export type StyleType = {
   container: { backgroundColor: string };
@@ -17,6 +18,7 @@ export type AmazingCropperProps = {
   imageUri: string;
   imageWidth: number;
   imageHeight: number;
+  imageResizeMode: ImageResizeMode;
   TOP_VALUE?: number;
   LEFT_VALUE?: number;
   BOTTOM_VALUE?: number;
@@ -40,6 +42,7 @@ const defaultProps = {
   imageUri: '',
   imageWidth: 1280,
   imageHeight: 747,
+  imageResizeMode: 'stretch',
   TOP_VALUE: 0,
   LEFT_VALUE: 0,
   BOTTOM_VALUE: 0,
@@ -69,6 +72,7 @@ class Main extends Component<AmazingCropperProps> {
         imageUri={this.props.imageUri}
         imageWidth={this.props.imageWidth}
         imageHeight={this.props.imageHeight}
+        imageResizeMode={this.props.imageResizeMode}
         TOP_VALUE={this.props.TOP_VALUE}
         LEFT_VALUE={this.props.LEFT_VALUE}
         BOTTOM_VALUE={this.props.BOTTOM_VALUE}
