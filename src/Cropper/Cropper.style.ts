@@ -8,7 +8,6 @@ export default function getStyles(COMPONENT_WIDTH: number, COMPONENT_HEIGHT: num
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'black',
     },
     secondContainer: {
       position: 'absolute',
@@ -16,6 +15,12 @@ export default function getStyles(COMPONENT_WIDTH: number, COMPONENT_HEIGHT: num
       left: 0,
       width: COMPONENT_WIDTH,
       height: COMPONENT_HEIGHT,
+    },
+    headerContainer: {
+      position: 'absolute',
+      top: 20,
+      left: 10,
+      right: 10,
     },
     footerContainer: {
       position: 'absolute',
@@ -29,8 +34,6 @@ export default function getStyles(COMPONENT_WIDTH: number, COMPONENT_HEIGHT: num
     },
     gridColumn: {
       flex: 1,
-      borderWidth: 1,
-      borderColor: 'rgba(255, 255, 255, 0.5)',
     },
     animation: {
       position: 'absolute',
@@ -92,7 +95,6 @@ export default function getStyles(COMPONENT_WIDTH: number, COMPONENT_HEIGHT: num
     borderDesign: {
       width: 30,
       height: 30,
-      borderColor: 'white',
     },
     icon: {
       paddingRight: 10,

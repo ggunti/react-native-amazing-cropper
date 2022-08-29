@@ -1,29 +1,34 @@
 import React, { Component } from 'react';
-import { Animated, PanResponder, PanResponderInstance, PanResponderGestureState, ImageCropData } from 'react-native';
+import { Animated, PanResponder, PanResponderInstance, PanResponderGestureState, ImageCropData, ImageResizeMode } from 'react-native';
 // @ts-ignore; 'react-native-image-rotate' does not have typescript support
 import RNImageRotate from '@wili/react-native-image-rotate';
 import ImageEditor from '@react-native-community/image-editor';
 import { Q } from '../constants';
 import Cropper from './Cropper';
 import { getCropperLimits } from '../utils';
+import { StyleType } from '../Main';
 
 type CropperPageProps = {
   footerComponent: JSX.Element;
+  headerComponent: JSX.Element;
   onDone: (croppedImageUri: string) => void;
   onError: (err: Error) => void;
   onCancel: () => void;
   imageUri: string;
   imageWidth: number;
   imageHeight: number;
+  imageResizeMode: ImageResizeMode;
   TOP_VALUE: number;
   LEFT_VALUE: number;
   BOTTOM_VALUE: number;
   RIGHT_VALUE: number;
   initialRotation: number;
   NOT_SELECTED_AREA_OPACITY: number;
+  NOT_SELECTED_AREA_BACKGROUND_COLOR?: string;
   BORDER_WIDTH: number;
   COMPONENT_WIDTH: number;
   COMPONENT_HEIGHT: number;
+  style: StyleType;
 };
 
 interface ExtendedAnimatedValue extends Animated.Value {
@@ -192,6 +197,8 @@ class CropperPage extends Component<CropperPageProps, State> {
   W = this.props.COMPONENT_WIDTH;
   H = this.props.COMPONENT_HEIGHT - Q;
 
+  outerBackgroundColor = this.props.NOT_SELECTED_AREA_BACKGROUND_COLOR || `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`;
+
   onCancel = () => {
     this.props.onCancel();
   };
@@ -203,7 +210,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       left: this.state.LEFT_LIMIT,
       height: Animated.add(this.props.BORDER_WIDTH - this.state.TOP_LIMIT, this.state.topPosition.y),
       width: this.W,
-      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
+      backgroundColor: this.outerBackgroundColor,
     };
   };
 
@@ -214,7 +221,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       left: this.state.LEFT_LIMIT,
       height: Animated.add(-this.props.BORDER_WIDTH, Animated.add(this.state.bottomPosition.y, Animated.multiply(-1, this.state.topPosition.y))),
       width: Animated.add(this.props.BORDER_WIDTH - this.state.LEFT_LIMIT, this.state.leftPosition.x),
-      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
+      backgroundColor: this.outerBackgroundColor,
     };
   };
 
@@ -225,7 +232,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       left: this.state.LEFT_LIMIT,
       height: Animated.add(this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT, Animated.multiply(-1, this.state.bottomPosition.y)),
       width: this.W,
-      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
+      backgroundColor: this.outerBackgroundColor,
     };
   };
 
@@ -236,7 +243,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       left: this.state.rightPosition.x,
       height: Animated.add(-this.props.BORDER_WIDTH, Animated.add(this.state.bottomPosition.y, Animated.multiply(-1, this.state.topPosition.y))),
       right: this.state.RIGHT_LIMIT,
-      backgroundColor: `rgba(0, 0, 0, ${this.props.NOT_SELECTED_AREA_OPACITY})`,
+      backgroundColor: this.outerBackgroundColor,
     };
   };
 
@@ -335,7 +342,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       left: this.state.LEFT_LIMIT + DIFF,
       bottom: this.state.BOTTOM_LIMIT - DIFF,
       right: this.state.RIGHT_LIMIT + DIFF,
-      resizeMode: 'stretch',
+      resizeMode: this.props.imageResizeMode,
       transform: [{ rotate: `${this.state.rotation.toString()}deg` }],
     };
   };
@@ -693,7 +700,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       (rotatedUri: string) => {
         //
         ImageEditor.cropImage(rotatedUri, cropData)
-          .then(croppedUri => {
+          .then((croppedUri) => {
             this.props.onDone(croppedUri);
           })
           .catch((err: Error) => {
@@ -710,8 +717,10 @@ class CropperPage extends Component<CropperPageProps, State> {
   render() {
     return (
       <Cropper
+        style={this.props.style}
         imageUri={this.props.imageUri} // 'https://3.imimg.com/data3/SN/NO/MY-10244508/vertical-building-parking-500x500.jpg'
         footerComponent={this.props.footerComponent}
+        headerComponent={this.props.headerComponent}
         getTopOuterStyle={this.getTopOuterStyle}
         getLeftOuterStyle={this.getLeftOuterStyle}
         getBottomOuterStyle={this.getBottomOuterStyle}
@@ -742,10 +751,10 @@ class CropperPage extends Component<CropperPageProps, State> {
         bottomRightPanResponder={this.state.bottomRightPanResponder}
         topRightPanResponder={this.state.topRightPanResponder}
         rectanglePanResponder={this.state.rectanglePanResponder}
-        topOuterRef={ref => (this.topOuter = ref)}
-        leftOuterRef={ref => (this.leftOuter = ref)}
-        bottomOuterRef={ref => (this.bottomOuter = ref)}
-        rightOuterRef={ref => (this.rightOuter = ref)}
+        topOuterRef={(ref) => (this.topOuter = ref)}
+        leftOuterRef={(ref) => (this.leftOuter = ref)}
+        bottomOuterRef={(ref) => (this.bottomOuter = ref)}
+        rightOuterRef={(ref) => (this.rightOuter = ref)}
         COMPONENT_WIDTH={this.props.COMPONENT_WIDTH}
         COMPONENT_HEIGHT={this.props.COMPONENT_HEIGHT}
         W={this.W}
