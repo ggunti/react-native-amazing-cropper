@@ -29,6 +29,7 @@ type CropperPageProps = {
   COMPONENT_WIDTH: number;
   COMPONENT_HEIGHT: number;
   style: StyleType;
+  disableBoxPan?: boolean;
 };
 
 interface ExtendedAnimatedValue extends Animated.Value {
@@ -143,7 +144,7 @@ class CropperPage extends Component<CropperPageProps, State> {
     const topRightPanResponder = this.initCornerPanResponder('topPosition', 'rightPosition');
 
     const rectanglePosition = new Animated.ValueXY({ x: LEFT_VALUE, y: TOP_VALUE }) as ExtendedAnimatedValueXY;
-    const rectanglePanResponder = this.initRectanglePanResponder();
+    const rectanglePanResponder = props.disableBoxPan ? {} : this.initRectanglePanResponder();
 
     this.state = {
       topOuterPosition,

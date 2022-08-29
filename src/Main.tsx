@@ -30,6 +30,7 @@ export type AmazingCropperProps = {
   COMPONENT_WIDTH?: number;
   COMPONENT_HEIGHT?: number;
   style?: StyleType;
+  disableBoxPan?: boolean;
 } & typeof defaultProps;
 /// new key change
 
@@ -56,6 +57,7 @@ const defaultProps = {
     container: { backgroundColor: '#000' },
     grid: { border: { borderColor: '#FFF' }, column: { borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.5)' } },
   },
+  disableBoxPan: false,
 };
 
 class Main extends Component<AmazingCropperProps> {
@@ -84,6 +86,7 @@ class Main extends Component<AmazingCropperProps> {
         COMPONENT_WIDTH={this.props.COMPONENT_WIDTH}
         COMPONENT_HEIGHT={this.props.COMPONENT_HEIGHT}
         style={this.props.style}
+        disableBoxPan={this.props.disableBoxPan}
       />
     );
   }
