@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, PanResponder, PanResponderInstance, PanResponderGestureState, ImageCropData } from 'react-native';
+import { Animated, PanResponder, PanResponderInstance, PanResponderGestureState, ImageCropData, ImageResizeMode } from 'react-native';
 // @ts-ignore; 'react-native-image-rotate' does not have typescript support
 import RNImageRotate from '@wili/react-native-image-rotate';
 import ImageEditor from '@react-native-community/image-editor';
@@ -17,6 +17,7 @@ type CropperPageProps = {
   imageUri: string;
   imageWidth: number;
   imageHeight: number;
+  imageResizeMode: ImageResizeMode;
   TOP_VALUE: number;
   LEFT_VALUE: number;
   BOTTOM_VALUE: number;
@@ -341,7 +342,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       left: this.state.LEFT_LIMIT + DIFF,
       bottom: this.state.BOTTOM_LIMIT - DIFF,
       right: this.state.RIGHT_LIMIT + DIFF,
-      resizeMode: 'stretch',
+      resizeMode: this.props.imageResizeMode,
       transform: [{ rotate: `${this.state.rotation.toString()}deg` }],
     };
   };
