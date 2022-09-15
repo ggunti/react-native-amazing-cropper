@@ -14,11 +14,11 @@ Image cropper for react native made with Animated API (with rotation possibility
 <br/>
 <img src="https://i.imgur.com/Xf3PqJH.png" height="400" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/Ae4YRGS.png" height="400" />
 
-This component depend on `@wili/react-native-image-rotate` and `@react-native-community/image-editor` libraries. They need to be installed and linked to your project before.
+This component depend on `@bam.tech/react-native-image-resizer` and `@react-native-community/image-editor` libraries. They need to be installed and linked to your project before.
 
 **STEPS TO INSTALL:** </br>
-1.* `npm install --save @wili/react-native-image-rotate @react-native-community/image-editor` </br>
-2. `react-native link @wili/react-native-image-rotate @react-native-community/image-editor` </br>
+1.* `npm install --save @bam.tech/react-native-image-resizer @react-native-community/image-editor` </br>
+2. `react-native link @bam.tech/react-native-image-resizer @react-native-community/image-editor` </br>
 3.* `npm install --save react-native-amazing-cropper` </br>
 
 Step 2 is not needed for react-native >= 0.60 because of autolinking. Instead run `pod install` inside `ios` directory.
