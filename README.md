@@ -27,7 +27,7 @@ Step 2 is not needed for react-native >= 0.60 because of autolinking. Instead ru
 -------------
 | Prop  | Type | Description |
 | :------------ |:---------------:| :---------------|
-| onDone | `function` | A function which accepts 1 argument `croppedImageUri`. Called when user press the 'DONE' button |
+| onDone | `function` | A function which accepts 2 arguments: `croppedImageUri` and `garbageUri`. `garbageUri` should be ignored. It is returned only to give you the possibility to clear it from cache (ex. using `unlink` method from [react-native-fs](https://github.com/itinance/react-native-fs); see [this issue](https://github.com/ggunti/react-native-amazing-cropper/issues/36)). Called when user press the 'DONE' button |
 | onError | `function` | A function which accepts 1 argument `err` of type `Error`. Called when rotation or cropping fails |
 | onCancel | `function` | A function without arguments. Called when user press the 'CANCEL' button |
 | imageUri | `string` | The uri of the image you want to crop or rotate |
@@ -48,8 +48,9 @@ import React, { Component } from 'react';
 import AmazingCropper from 'react-native-amazing-cropper';;
 
 class AmazingCropperPage extends Component {
-  onDone = (croppedImageUri) => {
+  onDone = (croppedImageUri, garbageUri) => {
     console.log('croppedImageUri = ', croppedImageUri);
+    // clear the garbage uri from cache
     // send image to server for example
   }
 
@@ -86,8 +87,9 @@ import React, { Component } from 'react';
 import AmazingCropper, { DefaultFooter } from 'react-native-amazing-cropper';
 
 class AmazingCropperPage extends Component {
-  onDone = (croppedImageUri) => {
+  onDone = (croppedImageUri, garbageUri) => {
     console.log('croppedImageUri = ', croppedImageUri);
+    // clear the garbage uri from cache
     // send image to server for example
   }
 
@@ -195,8 +197,9 @@ import AmazingCropper from 'react-native-amazing-cropper';
 import CustomCropperFooter from './src/components/CustomCropperFooter.component';
 
 class AmazingCropperPage extends Component {
-  onDone = (croppedImageUri) => {
+  onDone = (croppedImageUri, garbageUri) => {
     console.log('croppedImageUri = ', croppedImageUri);
+    // clear the garbage uri from cache
     // send image to server for example
   }
 
@@ -226,10 +229,5 @@ class AmazingCropperPage extends Component {
   }
 }
 ```
-
-#### Did you like it? Check out also my mini applications on Google Play:
-Simple Share: https://play.google.com/store/apps/details?id=com.sendfiles </br>
-Card Trick: https://play.google.com/store/apps/details?id=com.card_trick_2 </br>
-Swwwitch: https://play.google.com/store/apps/details?id=com.swwwitch
 
 ### Do you need a mobile app for android & iOS? [Hire me](https://order-software.com)

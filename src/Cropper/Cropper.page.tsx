@@ -8,7 +8,7 @@ import { getCropperLimits } from '../utils';
 
 type CropperPageProps = {
   footerComponent: JSX.Element;
-  onDone: (croppedImageUri: string) => void;
+  onDone: (croppedImageUri: string, garbageUri: string) => void;
   onError: (err: Error) => void;
   onCancel: () => void;
   imageUri: string;
@@ -693,7 +693,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       .then(res => {
         ImageEditor.cropImage(res.uri, cropData)
           .then(croppedUri => {
-            this.props.onDone(croppedUri);
+            this.props.onDone(croppedUri, res.uri);
           })
           .catch((err: Error) => {
             this.props.onError(err);
