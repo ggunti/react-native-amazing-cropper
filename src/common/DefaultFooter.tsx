@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export type DefaultFooterProps = {
-  loading?: boolean;
   onDone?: () => any;
   onRotate?: () => any;
   onCancel?: () => any;
@@ -19,7 +18,7 @@ const DefaultFooter: React.FC<DefaultFooterProps> = props => (
     <TouchableOpacity onPress={props.onRotate} style={styles.touchable}>
       <Text style={styles.text}>{props.rotateText}</Text>
     </TouchableOpacity>
-    <TouchableOpacity disabled={props.loading} onPress={props.onDone} style={styles.touchable}>
+    <TouchableOpacity onPress={props.onDone} style={styles.touchable}>
       <Text style={styles.text}>{props.doneText}</Text>
     </TouchableOpacity>
   </View>

@@ -40,7 +40,6 @@ interface ExtendedAnimatedValueXY extends Animated.AnimatedValueXY {
 type Position = 'topPosition' | 'leftPosition' | 'bottomPosition' | 'rightPosition';
 
 interface State {
-  loading: boolean;
   topOuterPosition: ExtendedAnimatedValueXY;
   topOuterPanResponder: PanResponderInstance;
   leftOuterPosition: ExtendedAnimatedValueXY;
@@ -143,7 +142,6 @@ class CropperPage extends Component<CropperPageProps, State> {
     const rectanglePanResponder = this.initRectanglePanResponder();
 
     this.state = {
-      loading: false,
       topOuterPosition,
       topOuterPanResponder,
       leftOuterPosition,
@@ -669,17 +667,13 @@ class CropperPage extends Component<CropperPageProps, State> {
       })
       .catch((err: Error) => {
         this.props.onError(err);
-      })
-      .finally(() => {
-        this.setState({ loading: false });
       });
 
   onDone = () => {
-    if (this.isRectangleMoving || this.state.loading) {
+    if (this.isRectangleMoving) {
       return null;
     }
 
-    this.setState({ loading: true });
     const IMAGE_W = this.props.COMPONENT_WIDTH - this.state.RIGHT_LIMIT - this.state.LEFT_LIMIT;
     const IMAGE_H = this.props.COMPONENT_HEIGHT - this.state.BOTTOM_LIMIT - this.state.TOP_LIMIT;
     let x = this.state.leftPosition.x._value - this.state.LEFT_LIMIT + this.props.BORDER_WIDTH;
@@ -714,10 +708,7 @@ class CropperPage extends Component<CropperPageProps, State> {
             res.uri,
             this.state.rotation,
             (uri: string) => this.cropImage(uri, cropData, [res.uri, uri]),
-            (err: Error) => {
-              this.setState({ loading: false });
-              this.props.onError(err);
-            },
+            (err: Error) => this.props.onError(err),
           );
         } else {
           this.cropImage(res.uri, cropData, [res.uri]);
@@ -725,16 +716,12 @@ class CropperPage extends Component<CropperPageProps, State> {
       })
       .catch((err: Error) => {
         this.props.onError(err);
-      })
-      .finally(() => {
-        this.setState({ loading: false });
       });
   };
 
   render() {
     return (
       <Cropper
-        loading={this.state.loading}
         imageUri={this.props.imageUri} // 'https://3.imimg.com/data3/SN/NO/MY-10244508/vertical-building-parking-500x500.jpg'
         footerComponent={this.props.footerComponent}
         getTopOuterStyle={this.getTopOuterStyle}
