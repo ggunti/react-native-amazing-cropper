@@ -14,11 +14,11 @@ Image cropper for react native made with Animated API (with rotation possibility
 <br/>
 <img src="https://i.imgur.com/Xf3PqJH.png" height="400" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/Ae4YRGS.png" height="400" />
 
-This component depend on `@bam.tech/react-native-image-resizer` and `@react-native-community/image-editor` libraries. They need to be installed and linked to your project before.
+This component depend on `@bam.tech/react-native-image-resizer`, `@wili/react-native-image-rotate` and `@react-native-community/image-editor` libraries. They need to be installed and linked to your project before.
 
 **STEPS TO INSTALL:** </br>
-1.* `npm install --save @bam.tech/react-native-image-resizer @react-native-community/image-editor` </br>
-2. `react-native link @bam.tech/react-native-image-resizer @react-native-community/image-editor` </br>
+1.* `npm install --save @bam.tech/react-native-image-resizer @wili/react-native-image-rotate @react-native-community/image-editor` </br>
+2. `react-native link @bam.tech/react-native-image-resizer @wili/react-native-image-rotate @react-native-community/image-editor` </br>
 3.* `npm install --save react-native-amazing-cropper` </br>
 
 Step 2 is not needed for react-native >= 0.60 because of autolinking. Instead run `pod install` inside `ios` directory.
@@ -27,7 +27,7 @@ Step 2 is not needed for react-native >= 0.60 because of autolinking. Instead ru
 -------------
 | Prop  | Type | Description |
 | :------------ |:---------------:| :---------------|
-| onDone | `function` | A function which accepts 2 arguments: `croppedImageUri` and `garbageUri`. `garbageUri` should be ignored. It is returned only to give you the possibility to clear it from cache (ex. using `unlink` method from [react-native-fs](https://github.com/itinance/react-native-fs); see [this issue](https://github.com/ggunti/react-native-amazing-cropper/issues/36)). Called when user press the 'DONE' button |
+| onDone | `function` | A function which accepts 2 arguments: `croppedImageUri` and `garbageUris`. `garbageUris` is an array of string (it has 1 or 2 uri) and should be ignored. It is returned only to give you the possibility to clear the garbage uris from cache (ex. using `unlink` method from [react-native-fs](https://github.com/itinance/react-native-fs); see [this issue](https://github.com/ggunti/react-native-amazing-cropper/issues/36)). Called when user press the 'DONE' button |
 | onError | `function` | A function which accepts 1 argument `err` of type `Error`. Called when rotation or cropping fails |
 | onCancel | `function` | A function without arguments. Called when user press the 'CANCEL' button |
 | imageUri | `string` | The uri of the image you want to crop or rotate |
@@ -48,9 +48,9 @@ import React, { Component } from 'react';
 import AmazingCropper from 'react-native-amazing-cropper';;
 
 class AmazingCropperPage extends Component {
-  onDone = (croppedImageUri, garbageUri) => {
+  onDone = (croppedImageUri, garbageUris) => {
     console.log('croppedImageUri = ', croppedImageUri);
-    // clear the garbage uri from cache
+    // clear the garbage uris from cache
     // send image to server for example
   }
 
@@ -87,9 +87,9 @@ import React, { Component } from 'react';
 import AmazingCropper, { DefaultFooter } from 'react-native-amazing-cropper';
 
 class AmazingCropperPage extends Component {
-  onDone = (croppedImageUri, garbageUri) => {
+  onDone = (croppedImageUri, garbageUris) => {
     console.log('croppedImageUri = ', croppedImageUri);
-    // clear the garbage uri from cache
+    // clear the garbage uris from cache
     // send image to server for example
   }
 
@@ -197,9 +197,9 @@ import AmazingCropper from 'react-native-amazing-cropper';
 import CustomCropperFooter from './src/components/CustomCropperFooter.component';
 
 class AmazingCropperPage extends Component {
-  onDone = (croppedImageUri, garbageUri) => {
+  onDone = (croppedImageUri, garbageUris) => {
     console.log('croppedImageUri = ', croppedImageUri);
-    // clear the garbage uri from cache
+    // clear the garbage uris from cache
     // send image to server for example
   }
 
