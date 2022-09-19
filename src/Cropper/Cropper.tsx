@@ -3,6 +3,7 @@ import { View, Animated, Image, PanResponderInstance } from 'react-native';
 import getStyles from './Cropper.style';
 
 interface CropperProps {
+  loading: boolean;
   imageUri: string;
   footerComponent: JSX.Element;
   getTopOuterStyle: () => object;
@@ -55,6 +56,7 @@ const Cropper: React.FC<CropperProps> = props => {
 
       <View style={styles.footerContainer}>
         {React.cloneElement(props.footerComponent, {
+          loading: props.loading,
           onDone: props.onDone,
           onRotate: props.onRotate,
           onCancel: props.onCancel,

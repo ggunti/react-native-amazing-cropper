@@ -123,7 +123,7 @@ class AmazingCropperPage extends Component {
 -------------
 
 Write your custom footer component.</br>
-Don't forget to call the **props.onDone**, **props.onRotate** and **props.onCancel** methods inside it (the Cropper will pass them automatically to your footer component). Example of custom footer component:
+Don't forget to call the **props.onDone**, **props.onRotate** and **props.onCancel** methods inside it (the Cropper will pass them automatically to your footer component). Also you can use **props.loading** to disable buttons during image processing, or to show a loading indicator. Example of custom footer component:
 
 ```javascript
 import React from 'react';
@@ -139,7 +139,7 @@ const CustomCropperFooter = (props) => (
     <TouchableOpacity onPress={props.onRotate} style={styles.touchable}>
       <MaterialCommunityIcon name='format-rotate-90' style={styles.rotateIcon} />
     </TouchableOpacity>
-    <TouchableOpacity onPress={props.onDone} style={styles.touchable}>
+    <TouchableOpacity disabled={props.loading} onPress={props.onDone} style={styles.touchable}>
       <Text style={styles.text}>DONE</Text>
     </TouchableOpacity>
   </View>
@@ -148,6 +148,7 @@ const CustomCropperFooter = (props) => (
 export default CustomCropperFooter;
 
 CustomCropperFooter.propTypes = {
+  loading: PropTypes.bool,
   onDone: PropTypes.func,
   onRotate: PropTypes.func,
   onCancel: PropTypes.func
