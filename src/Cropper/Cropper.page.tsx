@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Animated, PanResponder, Platform, PanResponderInstance, PanResponderGestureState, ImageCropData } from 'react-native';
-import { createResizedImage } from '@bam.tech/react-native-image-resizer';
+import createResizedImage from '@bam.tech/react-native-image-resizer';
 // @ts-ignore - react-native-image-rotate does not have typescript support
-import ImageRotate from '@wili/react-native-image-rotate';
+import ImageRotate from '@meedwire/react-native-image-rotate';
 import ImageEditor from '@react-native-community/image-editor';
 import { Q } from '../constants';
 import Cropper from './Cropper';
@@ -697,7 +697,7 @@ class CropperPage extends Component<CropperPageProps, State> {
       resizeMode: 'stretch',
     } as ImageCropData;
     // we need to use this function because otherwise the crop may not work properly (see https://github.com/callstack/react-native-image-editor/issues/54)
-    createResizedImage(this.props.imageUri, imageWidth, imageHeight, 'JPEG', 100, Platform.OS === 'ios' ? 0 : this.state.rotation, undefined, false, {
+    createResizedImage.createResizedImage(this.props.imageUri, imageWidth, imageHeight, 'JPEG', 100, Platform.OS === 'ios' ? 0 : this.state.rotation, undefined, false, {
       mode: 'cover',
       onlyScaleDown: true,
     })
