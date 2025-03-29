@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Animated, PanResponder, Platform, PanResponderInstance, PanResponderGestureState, ImageCropData } from 'react-native';
-import { createResizedImage } from '@bam.tech/react-native-image-resizer';
+import { Animated, PanResponder, Platform, PanResponderInstance, PanResponderGestureState } from 'react-native';
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 // @ts-ignore - react-native-image-rotate does not have typescript support
 import ImageRotate from '@wili/react-native-image-rotate';
 import ImageEditor from '@react-native-community/image-editor';
@@ -38,6 +38,12 @@ interface ExtendedAnimatedValueXY extends Animated.AnimatedValueXY {
 }
 
 type Position = 'topPosition' | 'leftPosition' | 'bottomPosition' | 'rightPosition';
+
+type ImageCropData = {
+  offset: { x: number; y: number };
+  size: { width: number; height: number };
+  resizeMode: 'stretch';
+};
 
 interface State {
   topOuterPosition: ExtendedAnimatedValueXY;
@@ -662,8 +668,8 @@ class CropperPage extends Component<CropperPageProps, State> {
 
   cropImage = (uri: string, cropData: ImageCropData, garbageUris: string[]) =>
     ImageEditor.cropImage(uri, cropData)
-      .then(croppedUri => {
-        this.props.onDone(croppedUri, garbageUris);
+      .then((cropResult) => {
+        this.props.onDone(cropResult.uri, garbageUris);
       })
       .catch((err: Error) => {
         this.props.onError(err);
@@ -697,11 +703,21 @@ class CropperPage extends Component<CropperPageProps, State> {
       resizeMode: 'stretch',
     } as ImageCropData;
     // we need to use this function because otherwise the crop may not work properly (see https://github.com/callstack/react-native-image-editor/issues/54)
-    createResizedImage(this.props.imageUri, imageWidth, imageHeight, 'JPEG', 100, Platform.OS === 'ios' ? 0 : this.state.rotation, undefined, false, {
-      mode: 'cover',
-      onlyScaleDown: true,
-    })
-      .then(res => {
+    ImageResizer.createResizedImage(
+      this.props.imageUri,
+      imageWidth,
+      imageHeight,
+      'JPEG',
+      100,
+      Platform.OS === 'ios' ? 0 : this.state.rotation,
+      undefined,
+      false,
+      {
+        mode: 'cover',
+        onlyScaleDown: true,
+      },
+    )
+      .then((res) => {
         // on iOS we need to rotate the image using ImageRotate because the createResizedImage method is buggy
         if (Platform.OS === 'ios' && this.state.rotation !== 0) {
           ImageRotate.rotateImage(
@@ -754,10 +770,10 @@ class CropperPage extends Component<CropperPageProps, State> {
         bottomRightPanResponder={this.state.bottomRightPanResponder}
         topRightPanResponder={this.state.topRightPanResponder}
         rectanglePanResponder={this.state.rectanglePanResponder}
-        topOuterRef={ref => (this.topOuter = ref)}
-        leftOuterRef={ref => (this.leftOuter = ref)}
-        bottomOuterRef={ref => (this.bottomOuter = ref)}
-        rightOuterRef={ref => (this.rightOuter = ref)}
+        topOuterRef={(ref) => (this.topOuter = ref)}
+        leftOuterRef={(ref) => (this.leftOuter = ref)}
+        bottomOuterRef={(ref) => (this.bottomOuter = ref)}
+        rightOuterRef={(ref) => (this.rightOuter = ref)}
         COMPONENT_WIDTH={this.props.COMPONENT_WIDTH}
         COMPONENT_HEIGHT={this.props.COMPONENT_HEIGHT}
         W={this.W}
