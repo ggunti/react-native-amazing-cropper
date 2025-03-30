@@ -20,7 +20,6 @@
   "license": "MIT",
   "peerDependencies": {
     "@bam.tech/react-native-image-resizer": "*",
-    "@wili/react-native-image-rotate": "*",
     "@react-native-community/image-editor": "*",
     "react": "*",
     "react-native": "*"
